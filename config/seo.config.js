@@ -17,121 +17,75 @@ const totalPages = (response) => {
   return Number.isFinite(pages) ? pages : 0
 }
 
-const getLocalServiceGuides = () => {
-  const guidesFile = path.join(process.cwd(), 'data', 'service-guides.json')
-  if (!fs.existsSync(guidesFile)) {
+const getLocalContent = (fileName) => {
+  const contentFile = path.join(process.cwd(), 'data', fileName)
+  if (!fs.existsSync(contentFile)) {
     return []
   }
 
   try {
-    return JSON.parse(fs.readFileSync(guidesFile, 'utf8'))
+    return JSON.parse(fs.readFileSync(contentFile, 'utf8'))
   } catch (e) {
-    console.warn('SITEMAP SERVICE GUIDES LOCAL: ' + e)
+    console.warn(`SITEMAP LOCAL ${fileName}: ` + e)
     return []
   }
+}
+
+const getLocalPageRoutes = () => {
+  const pages = getLocalContent('pages.json')
+  const pagesData = pages.pages || pages
+
+  return Object.keys(pagesData).map((pageName) => {
+    if (pageName === 'Home') {
+      return '/'
+    }
+
+    return '/' + pageName.toLowerCase().replace(/\s+/g, '-')
+  })
+}
+
+const getPaginatedRoutes = (content, basePath, postsPerPage = 5) => {
+  const routes = []
+  const pageCount = Math.ceil(content.length / postsPerPage)
+
+  for (let i = 1; i <= pageCount; i++) {
+    routes.push(`/${basePath}/page/` + i)
+  }
+  content.forEach((item) => routes.push(`/${basePath}/` + item.slug))
+
+  return routes
 }
 
 export const siteMap = {
   path: '/sitemap.xml',
   hostname: url,
   gzip: true,
-  lastmod: new Date(),
   sitemaps: [
     {
       path: '/sitemap-pages.xml',
       defaults: {
         changefreq: 'daily',
-        priority: 0.9,
-        lastmod: new Date()
+        priority: 0.9
       },
-      routes: [
-        {
-          url: '/',
-          priority: 1
-        },
-        {
-          url: '/about',
-          priority: 0.9
-        },
-        {
-          url: '/services',
-          priority: 0.9
-        },
-        {
-          url: '/commercial-window-cleaning-boston-west-newton-ma',
-          priority: 0.9
-        },
-        {
-          url: '/commercial-office-exterior-cleaning-boston-west-newton-ma',
-          priority: 0.9
-        },
-        {
-          url: '/professional-commercial-exterior-cleaning-boston-ma',
-          priority: 0.9
-        },
-        {
-          url: '/commercial-soft-washing-boston-west-newton-ma',
-          priority: 0.9
-        },
-        {
-          url: '/commercial-dryer-vent-cleaning-boston-west-newton-ma',
-          priority: 0.9
-        },
-        {
-          url: '/commercial-bathroom-exhaust-cleaning-boston-west-newton-ma',
-          priority: 0.9
-        },
-        {
-          url: '/commercial-bathroom-exhaust-repair-boston-west-newton-ma',
-          priority: 0.9
-        },
-        {
-          url: '/commercial-gutter-cleaning-boston-west-newton-ma',
-          priority: 0.9
-        },
-        {
-          url: '/commercial-hvac-cleaning-boston-west-newton-ma',
-          priority: 0.9
-        },
-        {
-          url: '/commercial-air-quality-testing-boston-west-newton-ma',
-          priority: 0.9
-        },
-        {
-          url: '/commercial-caulking-services-boston-west-newton-ma',
-          priority: 0.9
-        },
-        {
-          url: '/commercial-sealing-services-boston-west-newton-ma',
-          priority: 0.9
-        },
-        {
-          url: '/contact',
-          priority: 0.9
-        },
-        {
-          url: '/faq',
-          priority: 0.8
-        },
-        {
-          url: '/blog',
-          priority: 0.8
-        },
-        {
-          url: '/service-guides',
-          priority: 0.8
-        }
-      ]
+      exclude: ['/**'],
+      routes: () => getLocalPageRoutes().map(route => ({
+        url: route,
+        priority: route === '/' ? 1 : 0.9
+      }))
     },
     {
       path: '/blog/sitemap-blog.xml',
       defaults: {
         changefreq: 'daily',
-        priority: 0.1,
-        lastmod: new Date()
+        priority: 0.1
       },
       exclude: ['/**'],
       routes: async () => {
+        const localPosts = getLocalContent('posts.json')
+        if (localPosts.length) {
+          return getPaginatedRoutes(localPosts, 'blog')
+        }
+
         try {
           // Get All Blog Posts
           const response = await axios.get(`${api}/wp/v2/posts?per_page=100`)
@@ -160,24 +114,12 @@ export const siteMap = {
       path: '/service-guides/sitemap-service-guides.xml',
       defaults: {
         changefreq: 'daily',
-        priority: 0.1,
-        lastmod: new Date()
+        priority: 0.1
       },
       exclude: ['/**'],
       routes: () => {
-        const guides = getLocalServiceGuides()
-        const routes = []
-        const postsPerPage = 5
-        const pageCount = Math.ceil(guides.length / postsPerPage)
-
-        for (let i = 1; i <= pageCount; i++) {
-          routes.push('/service-guides/page/' + i)
-        }
-        guides.forEach((guide) => {
-          routes.push('/service-guides/' + guide.slug)
-        })
-
-        return routes
+        const guides = getLocalContent('service-guides.json')
+        return getPaginatedRoutes(guides, 'service-guides')
       }
     }
   ]
@@ -185,6 +127,6 @@ export const siteMap = {
 
 export const setRobots = {
   UserAgent: '*',
-  Disallow: '/',
+  Disallow: '',
   Sitemap: url + 'sitemap.xml'
 }
