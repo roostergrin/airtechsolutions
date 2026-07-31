@@ -299,9 +299,12 @@
     @include laptop
       margin-top: 2rem
 
-    // Larger CTA type with tighter padding keeps the button footprint the same
+    // Larger CTA type with tighter padding keeps the button footprint the same.
+    // line-height is pinned so the secondary-styled phone CTA (which the
+    // button-secondary mixin sets to 1.2) matches the primary CTA's height.
     .block-button__button
       padding: rem-calc(13) rem-calc(20)
+      line-height: 1
       font-size: rem-calc(21)
 
     .base-button__cta
