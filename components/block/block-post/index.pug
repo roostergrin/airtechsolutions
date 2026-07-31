@@ -8,7 +8,7 @@ section.block-post
 
     .block-post__text
 
-      h2.block-post__title(v-html='props.blog_post.title' ref='title')
+      h1.block-post__title(v-html='props.blog_post.title' ref='title')
       .block-post__date(v-html='props.blog_post.date' ref='date')
 
       .block-post__social-group(ref='social')
@@ -23,7 +23,7 @@ section.block-post
     
     .block-post__text(ref='text')
       .block-post__paragraph(v-if='props.blog_post.paragraphs' v-for='(paragraph, i) in props.blog_post.paragraphs' :key='`paragraph-${i}`')
-        h3.block-post__paragraph--header(v-if='paragraph.header' v-html='paragraph.header')
+        h2.block-post__paragraph--header(v-if='paragraph.header' v-html='paragraph.header')
         .block-post__paragraph--body(v-if='paragraph.body' v-html='paragraph.body')
 
       .block-post__links(ref='buttons')

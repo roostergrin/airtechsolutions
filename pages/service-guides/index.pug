@@ -1,0 +1,8 @@
+.pages-service-guides
+  TheHero(:props='props.sections[0]', :style='heroStyle', customization-section-key='hero-0')
+  BlockRepeaterPost(
+    :props='props.sections[1]',
+    storeKey='serviceGuides',
+    basePath='/service-guides',
+    buttonLabel='Read Guide'
+  )

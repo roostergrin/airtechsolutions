@@ -44,14 +44,23 @@ const getLocalPageRoutes = () => {
   })
 }
 
+const lastmodOf = item => (item && item.modified) || (item && item.date) || undefined
+
+// Page 1 is skipped: it duplicates the clean /:basePath URL, which is already
+// listed in sitemap-pages.xml and is what page/1 canonicalizes to.
 const getPaginatedRoutes = (content, basePath, postsPerPage = 5) => {
   const routes = []
   const pageCount = Math.ceil(content.length / postsPerPage)
 
-  for (let i = 1; i <= pageCount; i++) {
-    routes.push(`/${basePath}/page/` + i)
+  for (let i = 2; i <= pageCount; i++) {
+    routes.push({ url: `/${basePath}/page/` + i, changefreq: 'weekly', priority: 0.3 })
   }
-  content.forEach((item) => routes.push(`/${basePath}/` + item.slug))
+  content.forEach(item => routes.push({
+    url: `/${basePath}/` + item.slug,
+    lastmod: lastmodOf(item),
+    changefreq: 'monthly',
+    priority: 0.7
+  }))
 
   return routes
 }
@@ -76,8 +85,8 @@ export const siteMap = {
     {
       path: '/blog/sitemap-blog.xml',
       defaults: {
-        changefreq: 'daily',
-        priority: 0.1
+        changefreq: 'monthly',
+        priority: 0.7
       },
       exclude: ['/**'],
       routes: async () => {
@@ -92,16 +101,15 @@ export const siteMap = {
           const dataPages = totalPages(response)
           const routes = []
           let blogArray = responseArray(response, 'SITEMAP BLOG API')
-          routes.push('/blog/page/1')
           for (let i = 2; i <= dataPages; i++) {
             const nextPage = await axios.get(
               `${api}/wp/v2/posts?per_page=100&page=${i}`
             )
             blogArray = [...blogArray, ...responseArray(nextPage, 'SITEMAP BLOG API')]
-            routes.push('/blog/page/' + i)
+            routes.push({ url: '/blog/page/' + i, changefreq: 'weekly', priority: 0.3 })
           }
           blogArray.forEach((post) => {
-            routes.push('/blog/' + post.slug)
+            routes.push({ url: '/blog/' + post.slug, lastmod: lastmodOf(post) })
           })
           return routes
         } catch (e) {
@@ -113,8 +121,8 @@ export const siteMap = {
     {
       path: '/service-guides/sitemap-service-guides.xml',
       defaults: {
-        changefreq: 'daily',
-        priority: 0.1
+        changefreq: 'monthly',
+        priority: 0.7
       },
       exclude: ['/**'],
       routes: () => {

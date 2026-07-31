@@ -20,7 +20,7 @@ export default {
     return { props }
   },
   head () {
-    return setMeta(this.props)
+    return setMeta(this.props, this.$route.path, { noindex: true })
   }
 }
 </script>

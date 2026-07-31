@@ -18,7 +18,7 @@ export default {
     return { props, allPages }
   },
   head () {
-    return setMeta(this.props)
+    return setMeta(this.props, this.$route.path, { noindex: true })
   }
 }
 </script>

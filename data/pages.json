@@ -2444,7 +2444,7 @@
     },
     {
       "acf_fc_layout": "blog_posts",
-      "title": "Blog",
+      "title": "",
       "component_padding": "full",
       "hide_component": false,
       "component_options": {

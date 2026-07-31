@@ -39,7 +39,6 @@ export default {
   },
   data () {
     return {
-      havePosts: false,
       navHeight: '0px',
       paginatedGallery: [],
       page: 0,
@@ -52,6 +51,12 @@ export default {
     postsData () {
       return this.$store.state[this.storeKey] || {}
     },
+    // Computed rather than set in mounted() so the list is present in the
+    // statically generated HTML — otherwise crawlers only ever see "Loading..."
+    // and find no links to any article.
+    havePosts () {
+      return Boolean(this.postsData.posts)
+    },
     currentPosts () {
       const page = this.$route.params.page || '1'
       return this.postsData.postsPerPage && this.postsData.postsPerPage[page] ? this.postsData.postsPerPage[page] : []
@@ -61,9 +66,6 @@ export default {
     }
   },
   mounted () {
-    if (this.postsData.posts) {
-      this.havePosts = true
-    }
     this.handleResize()
     window.addEventListener('resize', this.debounceFunc)
 

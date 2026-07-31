@@ -1,4 +1,9 @@
 import { url } from '../resources/api'
+import { organizationSchema, webSiteSchema, jsonLdScript } from '../resources/schema'
+
+// Set SEO_NOINDEX=true for staging/preview builds so they stay out of the index.
+// Production builds must leave it unset so pages are indexable.
+const robotsContent = process.env.SEO_NOINDEX === 'true' ? 'noindex, nofollow' : 'index, follow'
 
 export const siteHead = (meta, theme = {}) => {
   const faviconUrl = theme?.default?.favicon_url || '/favicon.ico'
@@ -12,10 +17,11 @@ export const siteHead = (meta, theme = {}) => {
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { name: 'referrer', content: 'no-referrer' },
-      { hid: 'robots', name: 'robots', content: 'noindex, nofollow' },
+      // no-referrer strips the referrer from our own analytics and outbound links
+      { name: 'referrer', content: 'strict-origin-when-cross-origin' },
+      { hid: 'robots', name: 'robots', content: robotsContent },
       { hid: 'description', name: 'description', content: seo.page_description || '' },
-      { hid: 'keywords', name: 'keywords', content: seo.page_keywords ? seo.page_keywords : '' },
+      seo.page_keywords && { hid: 'keywords', name: 'keywords', content: seo.page_keywords },
       // OG Meta
       { hid: 'og:type', property: 'og:type', content: 'website' },
       ogMeta.title && { hid: 'og:title', property: 'og:title', content: ogMeta.title },
@@ -30,6 +36,8 @@ export const siteHead = (meta, theme = {}) => {
       { hid: 'canonical', rel: 'canonical', href: url }
     ],
     script: [
+      jsonLdScript('ld-organization', organizationSchema()),
+      jsonLdScript('ld-website', webSiteSchema()),
       {
         hid: 'gtag',
         src: 'https://www.googletagmanager.com/gtag/js?id=G-EP9BQ2J5P8',
@@ -47,7 +55,9 @@ export const siteHead = (meta, theme = {}) => {
       }
     ],
     __dangerouslyDisableSanitizersByTagID: {
-      'gtag-config': ['innerHTML']
+      'gtag-config': ['innerHTML'],
+      'ld-organization': ['innerHTML'],
+      'ld-website': ['innerHTML']
     }
   }
 }

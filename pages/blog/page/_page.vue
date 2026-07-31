@@ -1,13 +1,19 @@
 <template lang="pug" src="./_page.pug"></template>
 
 <script>
-import { setData, setMeta } from '~/resources/utils'
+import { setData, setMeta, withPageNumber } from '~/resources/utils'
 import PageSections from '~/components/page-sections'
 
 export default {
   transition: 'fade',
   components: {
     PageSections
+  },
+  computed: {
+    // /blog/page/1 duplicates /blog, so it points its canonical at the clean URL
+    canonicalPath () {
+      return this.$route.params.page === '1' ? '/blog' : this.$route.path
+    }
   },
   async asyncData () {
     const data = await setData('blog')
@@ -21,7 +27,7 @@ export default {
     })
   },
   head () {
-    return setMeta(this.props)
+    return withPageNumber(setMeta(this.props, this.canonicalPath), this.$route.params.page)
   }
 }
 </script>

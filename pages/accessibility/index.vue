@@ -9,6 +9,7 @@
 
 <script>
 import { setJSONData } from '~/resources/utils'
+import { absoluteUrl } from '~/resources/schema'
 
 export default {
   components: {},
@@ -21,7 +22,11 @@ export default {
       title: `Accessibility Statement - ${this.props.company_name}`,
       meta: [
         { hid: 'description', name: 'description', content: `${this.props.company_name} is committed to facilitating the accessibility and usability of its website for everyone.` },
-        { hid: 'og:title', property: 'og:title', content: `Accessibility Statement - ${this.props.company_name}` }
+        { hid: 'og:title', property: 'og:title', content: `Accessibility Statement - ${this.props.company_name}` },
+        { hid: 'og:url', property: 'og:url', content: absoluteUrl(this.$route.path) }
+      ],
+      link: [
+        { hid: 'canonical', rel: 'canonical', href: absoluteUrl(this.$route.path) }
       ]
     }
   },

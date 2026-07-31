@@ -44,12 +44,28 @@
 
 <script>
 import { setJSONData } from '~/resources/utils'
+import { absoluteUrl } from '~/resources/schema'
 
 export default {
   components: {},
   async asyncData () {
     const data = await setJSONData('global', 'globalData')
     return { props: data }
+  },
+  head () {
+    const title = `Privacy Policy - ${this.props.company_name}`
+
+    return {
+      title,
+      meta: [
+        { hid: 'description', name: 'description', content: `How ${this.props.company_name} collects, uses, and protects the information you provide through this website.` },
+        { hid: 'og:title', property: 'og:title', content: title },
+        { hid: 'og:url', property: 'og:url', content: absoluteUrl(this.$route.path) }
+      ],
+      link: [
+        { hid: 'canonical', rel: 'canonical', href: absoluteUrl(this.$route.path) }
+      ]
+    }
   },
   mounted () {
     this.$nextTick(() => {

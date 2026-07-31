@@ -1,5 +1,13 @@
 import axios from 'axios'
 import { api, url } from './api'
+import {
+  absoluteUrl,
+  articleSchema,
+  breadcrumbSchema,
+  faqSchema,
+  jsonLdScript,
+  serviceSchema
+} from './schema'
 
 const emptyPageData = (slug = '') => ({
   title: slug,
@@ -245,6 +253,8 @@ export const setData = async (slug, customPostType = 'pages') => {
       return {
         title: localPost.title.rendered,
         slug: localPost.slug,
+        // Kept alongside the ACF payload so Article schema has an ISO publish date
+        date: localPost.date,
         ...localPost.acf
       }
     }
@@ -270,6 +280,7 @@ export const setData = async (slug, customPostType = 'pages') => {
     const data = {
       title: dataArray[0].title.rendered,
       slug: dataArray[0].slug,
+      date: dataArray[0].date,
       ...dataArray[0].acf
     }
     return { ...data }
@@ -279,25 +290,102 @@ export const setData = async (slug, customPostType = 'pages') => {
   }
 }
 
-export const setMeta = (meta) => {
+// Pages 2+ of a listing share the index page's SEO data, so the page number is
+// appended to keep their titles and descriptions distinct.
+export const withPageNumber = (head, page) => {
+  const pageNumber = Number(page || 1)
+
+  if (pageNumber < 2) {
+    return head
+  }
+
+  return {
+    ...head,
+    title: `${head.title} - Page ${pageNumber}`,
+    meta: head.meta.map(tag => (tag.hid === 'description' || tag.hid === 'og:description'
+      ? { ...tag, content: `${tag.content} Page ${pageNumber}.` }
+      : tag))
+  }
+}
+
+const servicePagePattern = /^\/(commercial-|professional-commercial-|services-for-)/
+
+// Page-specific JSON-LD. Organization and WebSite are emitted site-wide from
+// config/head.config.js, so everything here references them by @id.
+const pageJsonLd = (path, pageMeta, seoData) => {
+  const scripts = []
+  const post = pageMeta.blog_post
+  const heroTitle = (pageMeta.sections || []).find(section => section && section.title)
+  const pageName = post
+    ? post.title || pageMeta.title
+    : (heroTitle && heroTitle.title) || seoData.page_title || pageMeta.title
+
+  if (post) {
+    const isGuide = path.startsWith('/service-guides/')
+
+    scripts.push(jsonLdScript('ld-page', articleSchema({
+      title: post.title || pageMeta.title,
+      description: seoData.page_description || post.excerpt,
+      path,
+      image: post.main_image && post.main_image.src,
+      datePublished: pageMeta.date,
+      type: isGuide ? 'Article' : 'BlogPosting'
+    })))
+  } else if (path === '/faq') {
+    const accordion = (pageMeta.sections || []).find(section => section && section.acf_fc_layout === 'accordion')
+    const faq = accordion && faqSchema(accordion.accordion)
+
+    if (faq) {
+      scripts.push(jsonLdScript('ld-page', faq))
+    }
+  } else if (servicePagePattern.test(path)) {
+    scripts.push(jsonLdScript('ld-page', serviceSchema({
+      name: pageName,
+      description: seoData.page_description,
+      path,
+      image: heroTitle && heroTitle.image && heroTitle.image.src
+    })))
+  }
+
+  const breadcrumbs = breadcrumbSchema(path, pageName)
+
+  if (breadcrumbs) {
+    scripts.push(jsonLdScript('ld-breadcrumbs', breadcrumbs))
+  }
+
+  return scripts
+}
+
+export const setMeta = (meta, path, options = {}) => {
   const pageMeta = meta || emptyPageData()
   // Get the SEO data from either meta.seo or meta.meta.seo
   const seoData = pageMeta.seo || (pageMeta.meta && pageMeta.meta.seo) || {}
+  // Prefer the live route: a post's slug has no `/blog` or `/service-guides`
+  // prefix, so deriving the canonical from it points at a URL that doesn't exist.
+  const canonicalPath = path || `/${pageMeta.slug || ''}`
+  const canonical = path ? absoluteUrl(path) : `${url}${pageMeta.slug || ''}`
+  const scripts = options.noindex ? [] : pageJsonLd(canonicalPath, pageMeta, seoData)
 
   return {
     title: seoData.page_title ? seoData.page_title : pageMeta.title,
     meta: [
+      options.noindex && { hid: 'robots', name: 'robots', content: 'noindex, nofollow' },
       seoData.page_description && { hid: 'description', name: 'description', content: seoData.page_description },
       seoData.page_keywords && { hid: 'keywords', name: 'keywords', content: seoData.page_keywords },
       // // OG Meta
-      { hid: 'og:type', property: 'og:type', content: 'website' },
+      { hid: 'og:type', property: 'og:type', content: pageMeta.blog_post ? 'article' : 'website' },
       seoData.page_title && { hid: 'og:title', property: 'og:title', content: seoData.social_meta?.og_meta?.title ? seoData.social_meta.og_meta.title : seoData.page_title },
       seoData.page_description && { hid: 'og:description', property: 'og:description', content: seoData.social_meta?.og_meta?.description ? seoData.social_meta.og_meta.description : seoData.page_description },
       seoData.social_meta?.og_meta?.image && { hid: 'og:image', property: 'og:image', content: seoData.social_meta.og_meta.image },
-      { hid: 'og:url', property: 'og:url', content: `${url}${pageMeta.slug || ''}` }
+      { hid: 'og:url', property: 'og:url', content: canonical }
     ].filter(Boolean),
     link: [
-      { hid: 'canonical', rel: 'canonical', href: `${url}${pageMeta.slug || ''}` }
-    ]
+      { hid: 'canonical', rel: 'canonical', href: canonical }
+    ],
+    script: scripts,
+    __dangerouslyDisableSanitizersByTagID: scripts.reduce((tags, script) => {
+      tags[script.hid] = ['innerHTML']
+      return tags
+    }, {})
   }
 }
