@@ -6,11 +6,6 @@
         v-html=`(showStore ? 'Hide' : 'Show') + ' Store'`
       )
     .dev-mode-banner__button-container
-      nuxt-link.dev-mode-banner__button(
-        aria-label='View Component Locations on the style-guide page'
-        to='/style-guide#dev-mode-component-locations'
-      ) View Component Locations
-    .dev-mode-banner__button-container
       button.dev-mode-banner__button(
         @click='toggleDevInspector'
         v-html=`$store.state.devTools ? 'Hide' : 'Show' + ' Dev Tools'`

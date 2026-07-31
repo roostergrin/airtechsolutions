@@ -83,44 +83,6 @@ const buildPostsData = (posts, total = 100, customPostType = 'posts') => {
   }
 }
 
-export const getAllPages = async () => {
-  try {
-    const getPath = (str) => {
-      const regex = /.*\.com/ // eslint-disable-line
-      const match = str.match(regex)
-      if (match) {
-        return str.replace(match[0], '')
-      } else {
-        return str
-      }
-    }
-
-    const response = await axios.get(
-      `${api}/wp/v2/pages?per_page=100`
-    )
-
-    const dataPages = totalPages(response)
-    let dataArray = responseArray(response, 'ERROR getting pages for dev-mode-component-locations')
-    for (let i = 2; i <= dataPages; i++) {
-      const nextPage = await axios.get(
-        `${api}/wp/v2/pages?per_page=100&page=${i}`
-      )
-      dataArray = [...dataArray, ...responseArray(nextPage, 'ERROR getting pages for dev-mode-component-locations')]
-    }
-
-    return dataArray.map(item => ({
-      parent: item.parent,
-      path: getPath(item.link),
-      slug: item.slug,
-      title: item.title.rendered,
-      ...item.acf
-    }))
-  } catch (e) {
-    console.warn(`ERROR getting pages for dev-mode-component-locations: ${e}`)
-    return []
-  }
-}
-
 // gets data for all forms
 export const getForms = () => {
   try {
