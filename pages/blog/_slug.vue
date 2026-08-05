@@ -14,10 +14,7 @@ export default {
     return { props: data }
   },
   head () {
-    return setMeta(
-      Object.assign({}, this.props, { seo: (Object.assign({}, this.props.seo, {'page_title': this.props.title})) }),
-      this.$route.path
-    )
+    return setMeta(this.props, this.$route.path)
   }
 }
 </script>
