@@ -1,4 +1,4 @@
-.hero-main(:class="{ 'hero-main--no-image': !props.image.src && !props.video.src, 'hero-main--small-height': props.small, 'hero-main--has-service-icons': hasServiceIcons, 'hero-main--property-page': isPropertyPage, 'hero-main--about-page': isAboutPage }")
+.hero-main(:class="{ 'hero-main--home': $route.path === '/', 'hero-main--no-image': !props.image.src && !props.video.src, 'hero-main--small-height': props.small, 'hero-main--has-service-icons': hasServiceIcons, 'hero-main--property-page': isPropertyPage, 'hero-main--about-page': isAboutPage }")
   .hero-main__overlay
   .hero-main__image-container(v-if='props.media_type === "image"')
     picture.hero-main__picture(ref='image')
