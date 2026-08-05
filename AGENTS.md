@@ -77,6 +77,31 @@ All components follow a three-file pattern:
 - Test components with Jest
 - Maintain consistent naming conventions
 
+## SEO Regression Testing
+
+The focused SEO regression suite is located at `test/seo-audit.spec.js`. It protects shared metadata and structured-data behavior as well as SEO constraints in the JSON content sources.
+
+Future content, design, and engineering work should generally account for SEO and marketing best practices for both traditional search engines and AI-assisted search. Preserve clear search intent, accurate titles and heading hierarchy, crawlable server-rendered content, useful internal links, complete structured data, local relevance, and persuasive calls to action. Favor specific, answer-first copy that AI systems can extract and cite while still reading naturally for prospective customers. Do not keyword-stuff, add hidden SEO copy, duplicate thin pages, or make marketing and schema claims that are not supported by verified business facts.
+
+Run it before pushing changes that affect page content, metadata, schema, routing, sitemaps, social images, article data, or service guides. It is also recommended as a general pre-push check:
+
+```sh
+./node_modules/.bin/jest test/seo-audit.spec.js --runInBand --coverage=false
+```
+
+The suite currently checks:
+- Complete LocalBusiness address output
+- Article author attribution
+- FAQPage schema generation for service pages
+- Owned-CDN fallback behavior for licensed social images
+- Blog title and description length targets and matching social metadata
+- Concise, geo-qualified service-guide titles and matching social metadata
+- Exclusion of pagination URLs from content sitemaps
+
+Treat this suite as maintained project documentation, not a frozen one-time audit. When SEO requirements, business facts, route structures, content types, metadata conventions, or schema behavior change, update the implementation and the corresponding assertions together. Prefer rules that iterate over all relevant content so future entries are covered automatically. Keep hardcoded values only for intentional business facts or representative end-to-end regression cases.
+
+The focused suite does not replace `npm run lint` or relevant component tests. The repository's complete Jest run currently includes a pre-existing `test/Logo.spec.js` failure because it imports the nonexistent `components/Logo.vue`; do not attribute that unrelated failure to SEO changes.
+
 ## Task Planning Instructions
 When working on tasks in this project, always:
 1. **Plan First**: Use TodoWrite to break down tasks into bite-sized pieces

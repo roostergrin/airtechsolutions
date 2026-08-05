@@ -6,7 +6,8 @@ import {
   breadcrumbSchema,
   faqSchema,
   jsonLdScript,
-  serviceSchema
+  serviceSchema,
+  socialImage
 } from './schema'
 
 const emptyPageData = (slug = '') => ({
@@ -307,6 +308,13 @@ const pageJsonLd = (path, pageMeta, seoData) => {
       path,
       image: heroTitle && heroTitle.image && heroTitle.image.src
     })))
+
+    const accordion = (pageMeta.sections || []).find(section => section && section.acf_fc_layout === 'accordion')
+    const faq = accordion && faqSchema(accordion.accordion)
+
+    if (faq) {
+      scripts.push(jsonLdScript('ld-faq', faq))
+    }
   }
 
   const breadcrumbs = breadcrumbSchema(path, pageName)
@@ -338,7 +346,7 @@ export const setMeta = (meta, path, options = {}) => {
       { hid: 'og:type', property: 'og:type', content: pageMeta.blog_post ? 'article' : 'website' },
       seoData.page_title && { hid: 'og:title', property: 'og:title', content: seoData.social_meta?.og_meta?.title ? seoData.social_meta.og_meta.title : seoData.page_title },
       seoData.page_description && { hid: 'og:description', property: 'og:description', content: seoData.social_meta?.og_meta?.description ? seoData.social_meta.og_meta.description : seoData.page_description },
-      seoData.social_meta?.og_meta?.image && { hid: 'og:image', property: 'og:image', content: seoData.social_meta.og_meta.image },
+      seoData.social_meta?.og_meta?.image && { hid: 'og:image', property: 'og:image', content: socialImage(seoData.social_meta.og_meta.image) },
       { hid: 'og:url', property: 'og:url', content: canonical }
     ].filter(Boolean),
     link: [

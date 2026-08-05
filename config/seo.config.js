@@ -46,24 +46,12 @@ const getLocalPageRoutes = () => {
 
 const lastmodOf = item => (item && item.modified) || (item && item.date) || undefined
 
-// Page 1 is skipped: it duplicates the clean /:basePath URL, which is already
-// listed in sitemap-pages.xml and is what page/1 canonicalizes to.
-const getPaginatedRoutes = (content, basePath, postsPerPage = 5) => {
-  const routes = []
-  const pageCount = Math.ceil(content.length / postsPerPage)
-
-  for (let i = 2; i <= pageCount; i++) {
-    routes.push({ url: `/${basePath}/page/` + i, changefreq: 'weekly', priority: 0.3 })
-  }
-  content.forEach(item => routes.push({
-    url: `/${basePath}/` + item.slug,
-    lastmod: lastmodOf(item),
-    changefreq: 'monthly',
-    priority: 0.7
-  }))
-
-  return routes
-}
+const getContentRoutes = (content, basePath) => content.map(item => ({
+  url: `/${basePath}/` + item.slug,
+  lastmod: lastmodOf(item),
+  changefreq: 'monthly',
+  priority: 0.7
+}))
 
 export const siteMap = {
   path: '/sitemap.xml',
@@ -92,7 +80,7 @@ export const siteMap = {
       routes: async () => {
         const localPosts = getLocalContent('posts.json')
         if (localPosts.length) {
-          return getPaginatedRoutes(localPosts, 'blog')
+          return getContentRoutes(localPosts, 'blog')
         }
 
         try {
@@ -106,7 +94,6 @@ export const siteMap = {
               `${api}/wp/v2/posts?per_page=100&page=${i}`
             )
             blogArray = [...blogArray, ...responseArray(nextPage, 'SITEMAP BLOG API')]
-            routes.push({ url: '/blog/page/' + i, changefreq: 'weekly', priority: 0.3 })
           }
           blogArray.forEach((post) => {
             routes.push({ url: '/blog/' + post.slug, lastmod: lastmodOf(post) })
@@ -127,7 +114,7 @@ export const siteMap = {
       exclude: ['/**'],
       routes: () => {
         const guides = getLocalContent('service-guides.json')
-        return getPaginatedRoutes(guides, 'service-guides')
+        return getContentRoutes(guides, 'service-guides')
       }
     }
   ]

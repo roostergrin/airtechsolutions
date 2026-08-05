@@ -14,6 +14,11 @@ const dayNames = {
 const siteUrl = url.replace(/\/+$/, '')
 const organizationId = `${siteUrl}/#organization`
 const webSiteId = `${siteUrl}/#website`
+const defaultSocialImage = 'https://d20dg8rmreapkm.cloudfront.net/opengraph.jpg'
+
+export const socialImage = (image = '') => String(image).includes('licensed-adobe-assets.s3.us-west-2.amazonaws.com')
+  ? defaultSocialImage
+  : image
 
 export const absoluteUrl = (path = '') => {
   if (!path) {
@@ -98,6 +103,7 @@ export const organizationSchema = () => {
       streetAddress: [address.street, address.suite].filter(Boolean).join(' ') || undefined,
       addressLocality: city || undefined,
       addressRegion: region || undefined,
+      postalCode: address.postal_code || undefined,
       addressCountry: 'US'
     },
     areaServed: {
@@ -204,7 +210,11 @@ export const articleSchema = ({ title, description, path, image, datePublished, 
   url: absoluteUrl(path),
   datePublished: datePublished || undefined,
   dateModified: dateModified || datePublished || undefined,
-  author: { '@id': organizationId },
+  author: {
+    '@type': 'Organization',
+    name: 'Air Tech Solutions Team',
+    url: `${siteUrl}/about`
+  },
   publisher: { '@id': organizationId }
 })
 

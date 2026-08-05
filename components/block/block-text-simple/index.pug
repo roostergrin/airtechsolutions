@@ -4,5 +4,7 @@ section.block-text-simple(v-if='props.paragraphs.length !== 0', :class="props.ba
   .block-text-simple__container
     h2.block-text-simple__title(v-if='props.title' v-html='props.title', :class="{ 'block-text-simple__title--large': props.large_title, 'block-text-simple__title--center': props.center_title }" ref='tsTitle')
     .block-text-simple__row(v-if='props.paragraphs' :class="{ 'block-text-simple__row--one-column': props.paragraphs.length <= 1 || props.one_column, 'block-text-simple__row--center': props.center_title }")
-      p.block-text-simple__paragraph(v-for='(paragraph, i) in props.paragraphs', :key='`text-simple-${i}`' v-html='paragraph.text' ref='tsParagraphs')
+      .block-text-simple__item(v-for='(paragraph, i) in props.paragraphs', :key='`text-simple-${i}`')
+        h2.block-text-simple__paragraph-heading(v-if='paragraphHeading(paragraph)' v-html='paragraphHeading(paragraph)')
+        p.block-text-simple__paragraph(v-html='paragraphBody(paragraph)' ref='tsParagraphs')
       

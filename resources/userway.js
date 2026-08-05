@@ -1,11 +1,20 @@
 /* eslint-disable */
 export default () => {
-  (function(d){
-    var s = d.createElement("script");
-    s.setAttribute("data-account", "D3656BNpyD");
-    s.setAttribute("data-trigger", "accessibilityWidget");
-    s.setAttribute("src", "https://cdn.userway.org/widget.js");
-    (d.body || d.head).appendChild(s);})(document);
+  var loadWidget = function () {
+    (function(d){
+      var s = d.createElement("script");
+      s.setAttribute("data-account", "D3656BNpyD");
+      s.setAttribute("data-trigger", "accessibilityWidget");
+      s.setAttribute("src", "https://cdn.userway.org/widget.js");
+      s.async = true;
+      (d.body || d.head).appendChild(s);})(document);
+  };
+
+  if (document.readyState === "complete") {
+    loadWidget();
+  } else {
+    window.addEventListener("load", loadWidget, { once: true });
+  }
 
   (function(d){
     var ns = d.createElement("noscript");

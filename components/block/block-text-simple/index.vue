@@ -18,6 +18,25 @@ export default {
     })
     // this.$nextTick(() => {
     // })
+  },
+  methods: {
+    paragraphHeading (paragraph) {
+      if (this.props.component_options?.hash !== 'service-details') {
+        return ''
+      }
+
+      const match = String(paragraph.text || '').match(/^<strong>([^<]+)<\/strong><br\s*\/?>/i)
+      return match ? match[1] : ''
+    },
+    paragraphBody (paragraph) {
+      const heading = this.paragraphHeading(paragraph)
+
+      if (!heading) {
+        return paragraph.text
+      }
+
+      return String(paragraph.text).replace(/^<strong>[^<]+<\/strong><br\s*\/?>/i, '')
+    }
   }
 }
 </script>

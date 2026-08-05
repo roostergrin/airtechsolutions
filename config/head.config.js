@@ -1,5 +1,5 @@
 import { url } from '../resources/api'
-import { organizationSchema, webSiteSchema, jsonLdScript } from '../resources/schema'
+import { organizationSchema, webSiteSchema, jsonLdScript, socialImage } from '../resources/schema'
 
 // Set SEO_NOINDEX=true for staging/preview builds so they stay out of the index.
 // Production builds must leave it unset so pages are indexable.
@@ -26,7 +26,7 @@ export const siteHead = (meta, theme = {}) => {
       { hid: 'og:type', property: 'og:type', content: 'website' },
       ogMeta.title && { hid: 'og:title', property: 'og:title', content: ogMeta.title },
       ogMeta.description && { hid: 'og:description', property: 'og:description', content: ogMeta.description },
-      ogMeta.image && { hid: 'og:image', property: 'og:image', content: ogMeta.image },
+      ogMeta.image && { hid: 'og:image', property: 'og:image', content: socialImage(ogMeta.image) },
       { hid: 'og:url', property: 'og:url', content: url }
     ].filter(Boolean),
     link: [

@@ -151,8 +151,7 @@ export default () => {
       ...(googleFonts.length > 0 ? ['nuxt-webfontloader'] : []),
       '@nuxtjs/robots',
       '@nuxtjs/sitemap',
-      'nuxt-polyfill',
-      '@nuxtjs/gtm'
+      'nuxt-polyfill'
     ],
     // gtm: {
     //   id: 'GTM-MQ6QNRZ'

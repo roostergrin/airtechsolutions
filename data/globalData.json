@@ -12,9 +12,10 @@
     {
       "title": "Service Area",
       "address": {
-        "street": "",
+        "street": "93 Border St",
         "suite": "",
         "city_state": "West Newton, MA",
+        "postal_code": "02465",
         "coordinates": {
           "longitude": "-71.2290",
           "latitude": "42.3501"

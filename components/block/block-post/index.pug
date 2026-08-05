@@ -10,6 +10,7 @@ section.block-post
 
       h1.block-post__title(v-html='props.blog_post.title' ref='title')
       .block-post__date(v-html='props.blog_post.date' ref='date')
+      .block-post__byline By Air Tech Solutions Team
 
       .block-post__social-group(ref='social')
         a.block-post__social-circle(:href='`https://www.facebook.com/sharer/sharer.php?u=${ postUrl }`' target="_blank" rel="noopener noreferrer")
