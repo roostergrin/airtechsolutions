@@ -20,6 +20,9 @@ export default {
     storeForms () {
       return this.$store.state.forms
     },
+    successRedirect () {
+      return this.$route.path.replace(/\/$/, '') === '/contact' ? '/thank-you/' : ''
+    },
     formHeading () {
       const header = this.selectedForm?.content?.content?.header || ''
       if (this.props.title) {

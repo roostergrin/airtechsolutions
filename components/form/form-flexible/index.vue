@@ -15,6 +15,10 @@ export default {
     selectedForm: {
       type: Object,
       default: () => ({})
+    },
+    successRedirect: {
+      type: String,
+      default: ''
     }
   },
   data: () => ({
@@ -213,6 +217,11 @@ export default {
             'Content-Type': 'application/json'
           }
         })
+
+        if (this.successRedirect) {
+          this.$router.push(this.successRedirect)
+          return
+        }
 
         this.formSuccess = true
 

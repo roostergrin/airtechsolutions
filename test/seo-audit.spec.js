@@ -1,10 +1,19 @@
 import { siteMap } from '@/config/seo.config'
+import { siteHead } from '@/config/head.config'
 import posts from '@/data/posts.json'
 import serviceGuides from '@/data/service-guides.json'
 import { articleSchema, organizationSchema, socialImage } from '@/resources/schema'
 import { setJSONData, setMeta } from '@/resources/utils'
 
 describe('SEO audit regressions', () => {
+  test('uses the configured GTM container instead of the retired GA tag', () => {
+    const head = siteHead({ title: 'Test', seo: {} })
+    const gtmScript = head.script.find(script => script.hid === 'gtm')
+
+    expect(gtmScript.innerHTML).toContain('GTM-M23CSNRD')
+    expect(JSON.stringify(head.script)).not.toContain('G-EP9BQ2J5P8')
+  })
+
   test('emits a complete local business address', () => {
     expect(organizationSchema().address).toMatchObject({
       streetAddress: '93 Border St',

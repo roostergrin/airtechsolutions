@@ -5,4 +5,4 @@
       .block-contact-form__text(v-if='selectedForm.content.content.body')
         p Get a free estimate by filling out this form and someone from our office will get back to you shortly.
     .block-contact-form__form-container
-      FormFlexible.block-contact-form__form(:props='props', :selectedForm='selectedForm' )
+      FormFlexible.block-contact-form__form(:props='props', :selectedForm='selectedForm', :success-redirect='successRedirect')

@@ -153,9 +153,6 @@ export default () => {
       '@nuxtjs/sitemap',
       'nuxt-polyfill'
     ],
-    // gtm: {
-    //   id: 'GTM-MQ6QNRZ'
-    // },
     robots: setRobots,
     sitemap: siteMap,
     css: [
