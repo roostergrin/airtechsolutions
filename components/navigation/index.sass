@@ -65,17 +65,23 @@
     @include container--large
     align-items: center
     justify-content: space-between
+    // Safari can resolve a logo SVG without intrinsic dimensions to the full
+    // available width, which used to wrap the hamburger onto a second row.
+    flex-wrap: nowrap
     height: 100%
     @include phone-xs
       padding: 0 0.5rem
 
   &__navbar
     display: flex
+    flex: 0 1 auto
     align-items: center
+    min-width: 0
     height: 100%
 
   &__home
     display: flex
+    flex: 0 0 auto
     align-items: center
     margin-right: 5vw
     padding: 0.5rem
@@ -93,8 +99,16 @@
       align-items: center
 
   &__logo
-    display: inline-block
+    // inline-flex (not inline-block) so justify-content applies: base-icon
+    // centers its svg, and the mark must stay flush left even if the wrapper
+    // ends up wider than the artwork
+    display: inline-flex
+    flex: 0 0 auto
+    align-items: center
+    justify-content: flex-start
     position: relative
+    // Width must come from the artwork's aspect ratio, never from the flex line
+    width: auto
     height: rem-calc(65)
     object-fit: contain
     @include phone-land-lg
@@ -108,11 +122,30 @@
     @include max-width(350px)
       height: rem-calc(30)
 
+    // Inline-SVG logos (BaseIcon) only: Safari will not derive a width from the
+    // viewBox, so pin the box to the artwork's ratio and let the svg fill it.
+    // Nothing here depends on the svg reporting intrinsic dimensions.
+    // Keep in sync with the ATS logo viewBox (0 0 360 254.79).
+    &.base-icon
+      aspect-ratio: 360 / 254.79
+      width: auto
+
+      svg
+        width: 100%
+        height: 100%
+
     svg
+      // Overrides base-icon's `width: 100%`, which Safari cannot resolve against
+      // a shrink-to-fit parent and expands to the full flex line instead
+      width: auto
+      max-width: 100%
       height: 100%
 
-      .ats-logo-text .cls-1
-        fill: url(#ats-logo-lettering-gradient) !important
+    // The lettering gradient is applied by the logo SVG's own internal <style>.
+    // Never re-declare `fill: url(#gradient-id)` here: WebKit resolves fragment
+    // references in a component stylesheet against that stylesheet's URL, not
+    // the document's, so the paint server goes unresolved and the lettering
+    // renders as nothing in Safari.
 
     // When navigation is floating, it uses the white logo version
     .navigation--floating &
@@ -120,9 +153,12 @@
       // Light variant logos are already light, so no filter needed
       &:not(.navigation__logo--light-variant)
         filter: brightness(0) invert(1)
-      svg
-        .ats-logo-text .cls-1
-          fill: url(#ats-logo-base-gradient) !important
+      // Inline SVGs get the same white-out filter rather than a gradient swap.
+      // Recoloring the stops is not an option: every copy of the logo on the
+      // page shares these gradient ids, so url(#…) resolves to whichever copy
+      // comes first in the DOM and the hero logo would change with the header.
+      &.base-icon
+        filter: brightness(0) invert(1)
 
   &__logo-mobile
     margin-left: 1rem
@@ -623,6 +659,8 @@
   // Add mobile navigation specific styles
   &__mobile
     display: flex
+    flex: 0 0 auto
     align-items: center
     justify-content: flex-end
+    margin-left: auto
     width: auto

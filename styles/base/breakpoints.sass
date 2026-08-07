@@ -58,6 +58,12 @@
   @media screen and (max-width: 750px) and (max-height: $screen-phone)
     @content
 
+// Small phones with little vertical room (iPhone SE at 375x667 and similar).
+// Taller phones of the same width keep the standard phone-lg treatment.
+@mixin phone-short
+  @media screen and (max-width: $screen-phone-lg) and (max-height: 720px)
+    @content
+
 @mixin max-width($max-width)
   @media screen and (max-width: $max-width)
     @content

@@ -126,6 +126,10 @@
       @include phone-lg
         bottom: 30%
 
+      // Sits just above the icon row, reclaiming the dead space between them
+      @include phone-short
+        bottom: 17%
+
     &--home
       --hero-home-edge-space: clamp(3rem, 10vw, 12rem)
       left: calc(((100vw - 100%) / -2) + var(--hero-home-edge-space))
@@ -242,12 +246,28 @@
     @include phone-lg
       width: 16rem
       max-width: 68vw
+    @include phone-short
+      width: 10.5rem
+      max-width: 52vw
+
+    // Safari will not derive the svg's height from its viewBox, so pin the box
+    // to the artwork's ratio and let the svg fill it. Keep in sync with the
+    // hero logo viewBox (0 0 360 254.79).
+    &.base-icon
+      aspect-ratio: 360 / 254.79
+      height: auto
+
+      svg
+        height: 100%
 
     svg
       display: block
       filter: drop-shadow(0 rem-calc(4) rem-calc(10) rgba($black, .45)) drop-shadow(0 rem-calc(1) rem-calc(2) rgba($black, .55))
       width: 100%
+      // Overrides base-icon's `height: 100%`; capped so a logo SVG that Safari
+      // cannot size from its viewBox can never grow up into the header
       height: auto
+      max-height: 34vh
 
   &__heading
     margin: 1rem 0 0
@@ -260,12 +280,17 @@
       max-width: rem-calc(520)
       text-align: center
       font-size: rem-calc(22)
+    @include phone-short
+      margin-top: .5rem
+      font-size: rem-calc(16)
 
   &__text
     @extend %hero-text
     max-width: calc((4/12) * #{$width})
     text-align: center
     color: $white
+    @include phone-short
+      font-size: rem-calc(15)
     .hero-main--property-page &
       max-width: calc((6/12) * #{$width})
     @include desktop
@@ -285,6 +310,9 @@
     @include phone-lg
       flex-direction: column
       align-items: stretch
+    @include phone-short
+      margin-top: 1.25rem
+      gap: .5rem
 
     .hero-main__cta
       margin-top: 0
@@ -311,6 +339,9 @@
       padding: rem-calc(13) rem-calc(20)
       line-height: 1
       font-size: rem-calc(21)
+      @include phone-short
+        padding: rem-calc(10) rem-calc(16)
+        font-size: rem-calc(17)
 
     .base-button__cta
       color: $white
@@ -329,6 +360,9 @@
       --service-icons-bottom-space: .75rem
     @include phone-lg
       --service-icons-bottom-space: .5rem
+    @include phone-short
+      --service-icons-bottom-space: .25rem
+      padding: .5rem 0 .25rem
 
     &::before
       position: absolute
@@ -358,10 +392,17 @@
 
       &::-webkit-scrollbar
         display: none
-    @include phone-lg
+    // Fixed-width columns are what actually makes the row scroll; below this the
+    // nine equal columns get too narrow to read
+    @include tablet
       grid-auto-columns: rem-calc(118)
       grid-auto-flow: column
       grid-template-columns: none
+    @include phone-short
+      grid-auto-columns: rem-calc(104)
+      gap: .5rem
+      padding: 0 .75rem .125rem
+      scroll-padding: .75rem
 
   &__service-icon
     display: flex
@@ -377,6 +418,8 @@
     text-align: center
     color: $white
     font: inherit
+    @include phone-short
+      gap: .35rem
     @include hover-supported
       transform: translateY(rem-calc(-3))
 
@@ -399,6 +442,9 @@
     @include tablet-md
       width: rem-calc(48)
       height: rem-calc(48)
+    @include phone-short
+      width: rem-calc(40)
+      height: rem-calc(40)
 
   &__service-icon-label
     text-transform: uppercase
@@ -409,6 +455,8 @@
     font-weight: 700
     @include tablet-md
       font-size: rem-calc(12)
+    @include phone-short
+      font-size: rem-calc(11)
 
   &__down
     position: absolute
