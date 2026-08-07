@@ -1,12 +1,12 @@
 .base-button-simple(:style="buttonStyles")
   nuxt-link.base-button-simple__button.base-button-simple__button--link(v-if='props.button_type === "nuxt_link"', :to='props.path + (props.hash ? props.hash : "")')
     span(v-html='displayLabel')
-    BaseIcon.base-button-simple__caret(name='caret', :style="{ stroke: textColor }" v-if='!noArrow')
+    BaseIcon.base-button-simple__caret(name='caret' v-if='!noArrow')
 
   button.base-button-simple__button.base-button-simple__button--button(v-else-if='props.button_type === "button"' tabindex='0', @click='onClick', :aria-label='props.aria ? props.aria : null')
     span(v-html='displayLabel')
-    BaseIcon.base-button-simple__caret(name='caret', :style="{ stroke: textColor }" v-if='!noArrow')
+    BaseIcon.base-button-simple__caret(name='caret' v-if='!noArrow')
 
   a.base-button-simple__button.base-button-simple__button--ext-link(v-else-if='props.button_type === "ext_link"', :href='props.href' target='_blank')
     span(v-html='displayLabel')
-    BaseIcon.base-button-simple__caret(name='caret', :style="{ stroke: textColor }" v-if='!noArrow') 
+    BaseIcon.base-button-simple__caret(name='caret' v-if='!noArrow') 

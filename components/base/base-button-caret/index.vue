@@ -14,7 +14,7 @@ export default {
   },
   computed: {
     buttonStyles () {
-      return { '--caretBtnClr': `var(--${this.variant}, #272727)` }
+      return { '--caret-btn-clr': `var(--${this.variant}, #272727)` }
     }
   },
   methods: {

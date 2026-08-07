@@ -50,8 +50,19 @@ export const siteHead = (meta, theme = {}) => {
         `
       }
     ],
+    // Rendered outside the Vue app on purpose. A <noscript> inside a component
+    // template breaks SSR hydration: browsers with scripting enabled parse its
+    // contents as raw text, so the real DOM never matches the virtual DOM.
+    noscript: [
+      {
+        hid: 'gtm-noscript',
+        innerHTML: '<iframe src="https://www.googletagmanager.com/ns.html?id=GTM-M23CSNRD" height="0" width="0" style="display:none;visibility:hidden"></iframe>',
+        body: true
+      }
+    ],
     __dangerouslyDisableSanitizersByTagID: {
       gtm: ['innerHTML'],
+      'gtm-noscript': ['innerHTML'],
       'ld-organization': ['innerHTML'],
       'ld-website': ['innerHTML']
     }

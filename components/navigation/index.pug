@@ -1,4 +1,4 @@
-header.navigation(:class="{ 'navigation--floating': !isScrolling && props.nav.floating && !$store.state.noFloatTop && !forceScrolledNav && !$route.path.includes('/privacy-policy') && !$route.path.includes('/404') && !$route.path.includes('/accessibility'), 'navigation--dark': isDarkVariant && (isScrolling || !props.nav.floating || $store.state.noFloatTop || forceScrolledNav), 'navigation--loaded': $store.state.siteLoaded, 'navigation--text-logo': !hasLogo }" ref='theNav')
+header.navigation(:class="{ 'navigation--floating': !isScrolling && nav.floating && !$store.state.noFloatTop && !forceScrolledNav && !$route.path.includes('/privacy-policy') && !$route.path.includes('/404') && !$route.path.includes('/accessibility'), 'navigation--dark': isDarkVariant && (isScrolling || !nav.floating || $store.state.noFloatTop || forceScrolledNav), 'navigation--loaded': $store.state.siteLoaded, 'navigation--text-logo': !hasLogo }" ref='theNav')
   
   Topbar.navigation__topbar(v-if='topBar && topBar.enable_top_bar', :props='topBar')
 
@@ -25,7 +25,7 @@ header.navigation(:class="{ 'navigation--floating': !isScrolling && props.nav.fl
             .navigation__subnav(v-if='link.children' :class='{ "navigation__subnav--active": i === currentDropdown }')
               nuxt-link.navigation__subnav-link(v-for='(sublink, j) in link.children', :key='`nav-sublink-${j}`', tabindex='0', :to='subnavPath(link, sublink)' v-html='sublink.name' @click.native='closeDropdown')
 
-    .navigation__nav-secondary(v-if='props.nav.cta_buttons && navContactCtas.length && windowWidth > 1280' ref='navSecondary')
+    .navigation__nav-secondary(v-if='nav.cta_buttons && navContactCtas.length && windowWidth > 1280' ref='navSecondary')
       a.navigation__contact-cta(v-for='(cta, i) in navContactCtas', :key='`nav-contact-cta-${i}`', :href='cta.href', :aria-label='cta.ariaLabel')
         BaseIcon.navigation__contact-cta-icon(:class='`navigation__contact-cta-icon--${cta.icon}`', :name='cta.icon')
       
@@ -57,6 +57,6 @@ header.navigation(:class="{ 'navigation--floating': !isScrolling && props.nav.fl
               .navigation__mobile-dropdown(v-if='link.children && currentDropdown === i', :class="{ 'navigation__mobile-dropdown--active': currentDropdown === i }", :aria-expanded="currentDropdown === i ? 'true' : 'false'")
                 nuxt-link.navigation__mobile-sublink(v-for='(sublink, j) in link.children', :key='`nav-sublink-${j}`', :to='subnavPath(link, sublink)' v-html='sublink.name' @click.native='closeDrawer')
 
-          .navigation__drawer-cta(v-if='props.nav.cta_buttons && navContactCtas.length')
+          .navigation__drawer-cta(v-if='nav.cta_buttons && navContactCtas.length')
             a.navigation__contact-cta.navigation__contact-cta--drawer(v-for='(cta, j) in navContactCtas', :key='`mobile-contact-cta-${j}`', :href='cta.href', :aria-label='cta.ariaLabel', @click='closeDrawer')
               BaseIcon.navigation__contact-cta-icon(:class='`navigation__contact-cta-icon--${cta.icon}`', :name='cta.icon')

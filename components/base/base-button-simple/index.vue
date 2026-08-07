@@ -21,7 +21,7 @@ export default {
       return ['Contact Us', 'Call Now'].includes(this.props?.label) ? 'Schedule Now' : this.props?.label
     },
     buttonStyles () {
-      return { '--simpleBtnClr': `var(--${this.variant}, #272727)` }
+      return { '--simple-btn-clr': `var(--${this.variant}, #272727)` }
     }
   },
   methods: {

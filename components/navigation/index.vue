@@ -30,6 +30,11 @@ export default {
     topBar () {
       return this.$store.state.theme?.header || this.props?.top_bar || null
     },
+    // props is populated by fetch(), which is null on the first render whenever
+    // this instance is not hydrated from the SSR payload.
+    nav () {
+      return this.props?.nav || {}
+    },
     links () {
       return router.filter(link => link.navigation)
     },
