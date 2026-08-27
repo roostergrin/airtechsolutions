@@ -108,8 +108,7 @@
         fieldset.form-flexible__group.form-flexible__group--radio(
           v-if=`['radio', 'checkbox'].includes(field.acf_fc_layout)`
         )
-          .form-flexible__radio-title-container
-            legend.form-flexible__radio-title(v-html='field.label')
+          legend.form-flexible__radio-title(v-html='field.label')
           .form-flexible__radio--alt
             .form-flexible__radio-group.form-flexible__radio-group--alt(
               v-for='(subfield, e) in field.inputs',

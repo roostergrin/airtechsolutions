@@ -19,7 +19,7 @@ footer.footer(:class="{ 'footer--light': $store.state.global.footer.light, 'foot
           .footer__item
             nuxt-link.footer__link(to='/accessibility' @click.native='$_removeFocus') Accessibility Statement
           .footer__item
-            .footer__link#accessibilityWidget(tabindex='0' aria-label='Accessibility Menu') Accessibility Menu
+            .footer__link#accessibilityWidget(role='button' tabindex='0' aria-label='Accessibility Menu') Accessibility Menu
     
     .footer__social-media
       ul.footer__social-links

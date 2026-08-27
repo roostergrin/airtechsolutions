@@ -7,10 +7,10 @@
   "scripts": {
     "lint": "eslint --ext .js,.vue --ignore-path .gitignore .",
     "test": "jest",
-    "dev": "node scripts/process-logo.js && nuxt --config-file config/nuxt.config.js",
-    "build": "node scripts/process-logo.js && nuxt build --config-file config/nuxt.config.js",
-    "start": "node scripts/process-logo.js && nuxt --config-file config/nuxt.config.js",
-    "generate": "node scripts/process-logo.js && nuxt generate --config-file config/nuxt.config.js",
+    "dev": "node scripts/process-logo.js && node scripts/generate-seo-files.js && nuxt --config-file config/nuxt.config.js",
+    "build": "node scripts/process-logo.js && node scripts/generate-seo-files.js && nuxt build --config-file config/nuxt.config.js",
+    "start": "node scripts/process-logo.js && node scripts/generate-seo-files.js && nuxt --config-file config/nuxt.config.js",
+    "generate": "node scripts/process-logo.js && node scripts/generate-seo-files.js && nuxt generate --config-file config/nuxt.config.js",
     "deploy": "npm run generate"
   },
   "dependencies": {

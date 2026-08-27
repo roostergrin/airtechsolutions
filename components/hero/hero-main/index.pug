@@ -1,9 +1,9 @@
 .hero-main(:class="{ 'hero-main--home': $route.path === '/', 'hero-main--no-image': !props.image.src && !props.video.src, 'hero-main--small-height': props.small, 'hero-main--has-service-icons': hasServiceIcons, 'hero-main--property-page': isPropertyPage, 'hero-main--about-page': isAboutPage }")
   .hero-main__overlay
-  .hero-main__image-container(v-if='props.media_type === "image"')
+  .hero-main__image-container(v-if='props.media_type === "image" && props.image.src')
     picture.hero-main__picture(ref='image')
-      source(:srcset='webpSrc' type='image/webp')
-      img.hero-main__image(:src='imgSrc', :alt='props.image.alt', :style='{ objectPosition: props.image.objectPosition ? props.image.objectPosition : null }' :aria-hidden='props.image.alt ? "false" : "true"')
+      source(v-if='webpSrcset', :srcset='webpSrcset', type='image/webp')
+      img.hero-main__image(:src='props.image.src', :alt='props.image.alt', fetchpriority='high', loading='eager', decoding='async', :style='{ objectPosition: props.image.objectPosition ? props.image.objectPosition : null }' :aria-hidden='props.image.alt ? "false" : "true"')
   .hero-main__video(v-else-if='props.media_type === "video"')
     video.hero-main__video(:src='props.video.src' :title='props.video.title' autoplay muted playsinline loop ref='video')
       source(:src='props.video.webm', type='video/webm')
@@ -33,7 +33,7 @@
         BaseIcon.hero-main__title-logo(:name='props.logo.name' aria-hidden='true')
       h1.hero-main__title(v-else ref='heroTitle' v-html='props.title')
       h1.hero-main__heading(v-if='hasHeroLogo && props.heading' v-html='props.heading')
-    .hero-main__service-icons(v-if='hasServiceIcons' aria-label='Commercial services')
+    .hero-main__service-icons(v-if='hasServiceIcons' role='group' aria-label='Commercial services')
       .hero-main__service-icons-track
         button.hero-main__service-icon(v-for='service in serviceIcons' :key='service.label' type='button' :aria-label='`View ${service.label}`' @click='handleServiceIconClick(service)')
           span.hero-main__service-icon-image(:style='{ "--service-icon-src": `url(${service.src})` }' aria-hidden='true')

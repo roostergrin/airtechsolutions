@@ -154,9 +154,9 @@
       &:not(.navigation__logo--light-variant)
         filter: brightness(0) invert(1)
       // Inline SVGs get the same white-out filter rather than a gradient swap.
-      // Recoloring the stops is not an option: every copy of the logo on the
-      // page shares these gradient ids, so url(#…) resolves to whichever copy
-      // comes first in the DOM and the hero logo would change with the header.
+      // BaseIcon now suffixes every inlined svg id per instance, so the copies
+      // no longer share paint servers, but recoloring the stops from here still
+      // will not work: see the WebKit fragment-reference note above.
       &.base-icon
         filter: brightness(0) invert(1)
 

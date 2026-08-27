@@ -9,7 +9,7 @@ section.block-repeater-post(:style='{ minHeight: `${elemMinHeight}px` }')
         .block-repeater-post__post-image-container
           BaseImage.block-repeater-post__post-image(v-if='hasImage(getPostContent(post).thumbnail_image)', v-bind='getPostContent(post).thumbnail_image' forceVisible)
         .block-repeater-post__post-text
-          h3.block-repeater-post__post-title(v-html='getPostContent(post).title')
+          h2.block-repeater-post__post-title(v-html='getPostContent(post).title')
           p.block-repeater-post__post-excerpt(v-html='getPostContent(post).excerpt')
           BaseButtonCaret.block-repeater-post__post-button(:props='{ button_type: "nuxt_link", path: getPostPath(post), label: buttonLabel, aria: buttonLabel, stroke: "#272727" }')
     BlockPagination(:pageCount='pageCount')

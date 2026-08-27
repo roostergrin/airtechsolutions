@@ -18,9 +18,8 @@ export default {
     }
   },
   data: () => ({
-    imgSrc: null,
-    webpSrc: null,
     videoPlaying: true,
+    revealTimeout: null,
     serviceHighlightTimeout: null,
     options: {
       root: null,
@@ -41,6 +40,12 @@ export default {
     isAboutPage () {
       return this.$route.path === '/about'
     },
+    // Some hero entries repeat the JPEG in the `webp` field, which would emit a
+    // <source type="image/webp"> the browser cannot use as advertised.
+    webpSrcset () {
+      const webp = (this.props.image && this.props.image.webp) || ''
+      return /\.webp(\?|$)/i.test(webp) ? webp : null
+    },
     serviceIcons () {
       if (!this.props.service_icons || !this.props.service_icons.length) {
         return []
@@ -53,36 +58,48 @@ export default {
     }
   },
   mounted () {
+    // The hero markup is server-rendered, so the copy is already on screen.
+    // Animating it straight away avoids a flash of static text while the hero
+    // media loads, and the media only gates the store's loaded flag.
+    this.handleAnimation()
+
     if (this.$refs.image) {
-      this.loadImage()
+      this.watchImage()
     }
     if (this.$refs.video) {
-      this.$refs.video.addEventListener('loadeddata', () => {
-        if (!this.$store.state.siteLoaded) {
-          this.$store.dispatch('VIEW_SITE', true)
-        }
-        this.handleAnimation()
-      })
+      this.$refs.video.addEventListener('loadeddata', this.markSiteLoaded, { once: true })
     }
-    if (!this.$refs.video && !this.props.image.src) {
-      if (!this.$store.state.siteLoaded) {
-        this.$store.dispatch('VIEW_SITE', true)
-      }
-      this.handleAnimation()
+    if (!this.$refs.video && !this.$refs.image) {
+      this.markSiteLoaded()
     }
   },
   beforeDestroy () {
     window.clearTimeout(this.serviceHighlightTimeout)
+    window.clearTimeout(this.revealTimeout)
   },
   methods: {
-    loadImage () {
-      this.imgSrc = this.props.image.src
-      this.webpSrc = this.props.image.webp
-      this.$refs.image.children[1].onload = () => {
-        if (!this.$store.state.siteLoaded) {
-          this.$store.dispatch('VIEW_SITE', true)
-        }
-        this.handleAnimation()
+    // The hero <img> is server-rendered with its src so it can start downloading
+    // before hydration, which means it may already be decoded by the time we
+    // mount. Checking `complete` first keeps us from waiting on a `load` event
+    // that will never fire.
+    watchImage () {
+      const image = this.$refs.image.querySelector('img')
+
+      if (!image || image.complete) {
+        this.markSiteLoaded()
+        return
+      }
+
+      image.addEventListener('load', this.markSiteLoaded, { once: true })
+      image.addEventListener('error', this.markSiteLoaded, { once: true })
+      // A hero image that never resolves should not leave the flag unset.
+      this.revealTimeout = window.setTimeout(this.markSiteLoaded, 3000)
+    },
+    markSiteLoaded () {
+      window.clearTimeout(this.revealTimeout)
+
+      if (!this.$store.state.siteLoaded) {
+        this.$store.dispatch('VIEW_SITE', true)
       }
     },
     playVideo () {

@@ -33,6 +33,7 @@ export const siteHead = (meta, theme = {}) => {
       { rel: 'icon', type: faviconType, href: faviconUrl },
       { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
       { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: 'anonymous' },
+      { rel: 'alternate', type: 'application/rss+xml', title: 'Air Tech Solutions Blog', href: url + 'rss.xml' },
       { hid: 'canonical', rel: 'canonical', href: url }
     ],
     script: [
@@ -40,7 +41,6 @@ export const siteHead = (meta, theme = {}) => {
       jsonLdScript('ld-website', webSiteSchema()),
       {
         hid: 'gtm',
-        type: 'text/javascript',
         innerHTML: `
           (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
           new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],

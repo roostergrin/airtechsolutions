@@ -5,7 +5,7 @@
 
   &__button
     @include hover-supported
-      span
+      span:not(.base-icon)
         &:after
           transform: translateY(0)
       .base-button-simple__caret
@@ -17,7 +17,9 @@
     line-height: 1.5
     color: var(--text)
 
-    span
+    // The label only. BaseIcon renders a <span>, so an unqualified `span` here
+    // would draw the underline across the caret as well.
+    span:not(.base-icon)
       display: block
       position: relative
       transition: color .2s ease

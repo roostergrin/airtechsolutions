@@ -31,17 +31,23 @@ const getLocalContent = (fileName) => {
   }
 }
 
+// Indexable routes that have a page component but no data/pages.json entry.
+// Kept in step with EXTRA_PAGE_ROUTES in scripts/generate-seo-files.js.
+const extraPageRoutes = ['/accessibility', '/privacy-policy']
+
 const getLocalPageRoutes = () => {
   const pages = getLocalContent('pages.json')
   const pagesData = pages.pages || pages
 
-  return Object.keys(pagesData).map((pageName) => {
+  const routes = Object.keys(pagesData).map((pageName) => {
     if (pageName === 'Home') {
       return '/'
     }
 
     return '/' + pageName.toLowerCase().replace(/\s+/g, '-')
   })
+
+  return [...routes, ...extraPageRoutes]
 }
 
 const lastmodOf = item => (item && item.modified) || (item && item.date) || undefined

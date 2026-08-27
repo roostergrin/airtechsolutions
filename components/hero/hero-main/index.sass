@@ -105,6 +105,10 @@
     align-items: center
     transform: translate(-50%, 0)
     margin-left: 0
+    // Centres wrapped hero copy at every width. The flex centring above only
+    // centres the box, so a title long enough to wrap used to set its lines
+    // left. --home and --title-only opt back out below.
+    text-align: center
     color: $white
     @include tablet
       bottom: 10%
