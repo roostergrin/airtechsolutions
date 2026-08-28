@@ -40,6 +40,9 @@ export default {
     isAboutPage () {
       return this.$route.path === '/about'
     },
+    isMarketingPage () {
+      return this.$route.path.replace(/\/$/, '') === '/marketing'
+    },
     // Some hero entries repeat the JPEG in the `webp` field, which would emit a
     // <source type="image/webp"> the browser cannot use as advertised.
     webpSrcset () {

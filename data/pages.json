@@ -7434,5 +7434,389 @@
         "social_meta": { "og_meta": { "title": "Services for Industrial Properties | Air Tech Solutions", "description": "Heavy-duty cleaning for demanding environments.", "image": "https://d20dg8rmreapkm.cloudfront.net/properties/properties-industrial-building.jpg" } }
       }
     }
+  ],
+  "marketing": [
+    {
+      "acf_fc_layout": "hero",
+      "title": "Commercial Exterior Cleaning & Ventilation in Greater Boston",
+      "text": "One insured, fully equipped crew for exteriors, vents, and air quality.<br>Serving commercial properties within 100 miles of West Newton, MA since 2010.",
+      "button": {
+        "type": "nuxt",
+        "style": "primary",
+        "label": "Get a Free Quote",
+        "aria_label": "Jump to the Air Tech Solutions quote request form",
+        "href": "",
+        "path": "/marketing",
+        "hash": "form",
+        "external": false,
+        "include_icon": false,
+        "icon": "pencil",
+        "color": "black",
+        "colors": {
+          "background": "#003970",
+          "text": "#FFFFFF",
+          "hover_background": "#ADC8E8",
+          "hover_text": "#000000"
+        }
+      },
+      "phone_button": {
+        "type": "anchor",
+        "style": "secondary",
+        "label": "508.441.0081",
+        "aria_label": "Call Air Tech Solutions at 508-441-0081",
+        "href": "tel:+15084410081",
+        "external": false,
+        "include_icon": false,
+        "color": "black",
+        "colors": {
+          "background": "#ADC8E8",
+          "text": "#000000",
+          "hover_background": "#003970",
+          "hover_text": "#FFFFFF"
+        }
+      },
+      "media_type": "image",
+      "image": {
+        "src": "https://d20dg8rmreapkm.cloudfront.net/home/home-hero-3.jpg",
+        "webp": "https://d20dg8rmreapkm.cloudfront.net/home/home-hero-3.jpg",
+        "alt": "Commercial property exterior serviced by Air Tech Solutions",
+        "aria_hidden": false,
+        "bgColor": "",
+        "imageBackground": false,
+        "addLoader": false,
+        "objectPosition": "center",
+        "forceAlt": "",
+        "loading_mask": "",
+        "image_selection_hints": { "context_category": "Homepage Hero", "istock_id": "612309678" }
+      },
+      "video": { "src": "", "webm": "", "title": "" },
+      "small": false
+    },
+    {
+      "acf_fc_layout": "block_text_simple",
+      "title": "One Vendor for the Whole Building Envelope",
+      "paragraphs": [
+        {
+          "text": "Air Tech Solutions is a locally owned New England company that has served commercial properties since 2010. Property managers call us when they need exterior cleaning, ventilation, and indoor air quality work handled by a single insured vendor instead of coordinating three or four contractors."
+        },
+        {
+          "text": "We own and operate all of our equipment&mdash;industrial soft washing systems, high-capacity air compressors, boom lifts, and rope access gear&mdash;so complex elevations and large portfolios do not stall while we wait on rented lifts. Tell us what your building needs and we will scope it, schedule it, and work around your tenants."
+        },
+        {
+          "text": "<strong>We work with commercial properties only</strong>, including commercial multi-family communities, offices, hotels, healthcare facilities, and industrial sites. We do not service single-family homes."
+        }
+      ],
+      "component_options": {
+        "hash": "why-air-tech",
+        "component_padding": "half",
+        "component_margins": "none",
+        "hide_component": false
+      },
+      "large_title": false,
+      "center_title": false,
+      "one_column": true,
+      "add_texture": false,
+      "background": "",
+      "linear_gradient": ""
+    },
+    {
+      "acf_fc_layout": "multi_item_row",
+      "title": "Why Property Managers Hire Us",
+      "items": [
+        {
+          "title": "Fully Insured & Compliant",
+          "text": "We are fully insured and compliant, and we provide the documentation your ownership group and on-site team need before work begins.",
+          "add_button": false
+        },
+        {
+          "title": "We Own Our Equipment",
+          "text": "Boom lifts, rope access gear, industrial soft washing systems, and high-capacity compressors are ours, so scheduling does not depend on rental availability.",
+          "add_button": false
+        },
+        {
+          "title": "Commercial Specialists Since 2010",
+          "text": "Fifteen years of working on occupied commercial buildings across New England means we plan access, staging, and tenant communication before day one.",
+          "add_button": false
+        },
+        {
+          "title": "Minimal Disruption On Site",
+          "text": "We stage by elevation, prioritize entrances and high-traffic areas, and coordinate with your maintenance team so residents and guests are barely affected.",
+          "add_button": false
+        }
+      ],
+      "button": {
+        "type": "nuxt",
+        "style": "secondary",
+        "label": "",
+        "aria_label": "",
+        "href": "",
+        "path": "",
+        "hash": "",
+        "external": false,
+        "include_icon": false,
+        "icon": "pencil",
+        "color": "black"
+      },
+      "component_options": {
+        "hash": "why-us",
+        "component_padding": "half",
+        "component_margins": "none",
+        "hide_component": false
+      },
+      "media_type": "",
+      "linear_gradient": "",
+      "add_cta": false,
+      "left_aligned": false,
+      "large_title": true,
+      "alt_color": true
+    },
+    {
+      "acf_fc_layout": "multi_item_row",
+      "title": "Services Included in Your Quote",
+      "variant": "service_icons",
+      "items": [
+        {
+          "title": "Exterior Soft Washing",
+          "service_key": "exterior-soft-washing",
+          "service_icon": "exterior-soft-wash.png",
+          "text": "Low-pressure cleaning that removes dirt, algae, and mildew from siding, brick, and stucco without damaging the surface.",
+          "add_button": false
+        },
+        {
+          "title": "Window Washing",
+          "service_key": "window-washing",
+          "service_icon": "window.png",
+          "text": "Exterior glass, frames, and sills cleaned on every floor, including elevations that require lifts or rope access.",
+          "add_button": false
+        },
+        {
+          "title": "Surface Powerwashing",
+          "service_key": "surface-powerwashing",
+          "service_icon": "surface-powerwashing.png",
+          "text": "High-pressure cleaning for garage decks, sidewalks, entryways, and concrete where oil and grime build up.",
+          "add_button": false
+        },
+        {
+          "title": "Gutter Cleaning",
+          "service_key": "gutter-cleaning",
+          "service_icon": "gutter.png",
+          "text": "Gutters and downspouts cleared so water drains away from the building instead of into it.",
+          "add_button": false
+        },
+        {
+          "title": "Dryer Vent Cleaning",
+          "service_key": "dryer-vent-cleaning",
+          "service_icon": "dryer-vent-cleaning.png",
+          "text": "Lint and buildup removed from dryer exhaust systems to reduce fire risk and cut drying times.",
+          "add_button": false
+        },
+        {
+          "title": "Bathroom Exhaust Cleaning",
+          "service_key": "bathroom-exhaust-cleaning",
+          "service_icon": "bathroom-exhaust.png",
+          "text": "Exhaust fans and ductwork cleaned to restore airflow and reduce the moisture that drives mold complaints.",
+          "add_button": false
+        },
+        {
+          "title": "HVAC Cleaning",
+          "service_key": "hvac-cleaning",
+          "service_icon": "hvac.png",
+          "text": "Dust and debris cleared from HVAC systems and ductwork to improve airflow and system efficiency.",
+          "add_button": false
+        },
+        {
+          "title": "Air Quality Testing",
+          "service_key": "air-quality-testing",
+          "service_icon": "air-quality.png",
+          "text": "Indoor air tested for particulates and contaminants so you have real data before you spend on remediation.",
+          "add_button": false
+        },
+        {
+          "title": "Sealing & Caulking",
+          "service_key": "sealing-caulking-services",
+          "service_icon": "caulking.png",
+          "text": "Exterior joints and penetrations sealed to keep water and air out and improve energy efficiency.",
+          "add_button": false
+        }
+      ],
+      "button": {
+        "type": "nuxt",
+        "style": "secondary",
+        "label": "",
+        "aria_label": "",
+        "href": "",
+        "path": "",
+        "hash": "",
+        "external": false,
+        "include_icon": false,
+        "icon": "pencil",
+        "color": "black"
+      },
+      "component_options": {
+        "hash": "services",
+        "component_padding": "half",
+        "component_margins": "none",
+        "hide_component": false
+      },
+      "media_type": "icon",
+      "linear_gradient": "",
+      "add_cta": false,
+      "left_aligned": false,
+      "large_title": true,
+      "alt_color": true
+    },
+    {
+      "acf_fc_layout": "form",
+      "form": [1509],
+      "component_options": {
+        "hash": "form",
+        "component_padding": "half",
+        "component_margins": "none",
+        "hide_component": false
+      },
+      "stack": false,
+      "title": "Request Your Free Quote"
+    },
+    {
+      "acf_fc_layout": "accordion",
+      "title": "Questions Before You Reach Out",
+      "paragraphs": [
+        { "has_heading": false, "heading": "", "text": "Answers to what property managers ask us most often." }
+      ],
+      "accordion": [
+        {
+          "header": "How much does a service cost?",
+          "paragraphs": [
+            { "text": "Every quote is based on your building: size, elevation, access conditions, and the scope of work. Estimates are free&mdash;send us the property details and we will price it." }
+          ],
+          "has_media": false,
+          "media_type": "image",
+          "image": { "src": "", "webp": "", "alt": "", "aria_hidden": false, "bgColor": "", "imageBackground": false, "addLoader": false, "objectPosition": "", "forceAlt": "", "loading_mask": "", "image_selection_hints": null },
+          "video": { "type": "embedded", "src": "" }
+        },
+        {
+          "header": "What areas do you serve?",
+          "paragraphs": [
+            { "text": "We service commercial properties within a 100-mile radius of Boston and West Newton, MA, including Newton, Cambridge, Brookline, Watertown, Waltham, Somerville, Medford, Dedham, Needham, Norwood, Quincy, Woburn, Burlington, Lexington, Framingham, and Marlborough." }
+          ],
+          "has_media": false,
+          "media_type": "image",
+          "image": { "src": "", "webp": "", "alt": "", "aria_hidden": false, "bgColor": "", "imageBackground": false, "addLoader": false, "objectPosition": "", "forceAlt": "", "loading_mask": "", "image_selection_hints": null },
+          "video": { "type": "embedded", "src": "" }
+        },
+        {
+          "header": "Do you work on single-family homes?",
+          "paragraphs": [
+            { "text": "No. Air Tech Solutions works with commercial properties only, including commercial multi-family communities such as apartment buildings, condominiums, and townhome communities." }
+          ],
+          "has_media": false,
+          "media_type": "image",
+          "image": { "src": "", "webp": "", "alt": "", "aria_hidden": false, "bgColor": "", "imageBackground": false, "addLoader": false, "objectPosition": "", "forceAlt": "", "loading_mask": "", "image_selection_hints": null },
+          "video": { "type": "embedded", "src": "" }
+        },
+        {
+          "header": "Can you reach upper floors and difficult elevations?",
+          "paragraphs": [
+            { "text": "Yes. We own boom lifts and rope access equipment and plan access based on your building's height, setbacks, and site rules." }
+          ],
+          "has_media": false,
+          "media_type": "image",
+          "image": { "src": "", "webp": "", "alt": "", "aria_hidden": false, "bgColor": "", "imageBackground": false, "addLoader": false, "objectPosition": "", "forceAlt": "", "loading_mask": "", "image_selection_hints": null },
+          "video": { "type": "embedded", "src": "" }
+        },
+        {
+          "header": "When can I expect to hear back?",
+          "paragraphs": [
+            { "text": "Our office is open Monday through Friday, 7:30AM to 6:00PM. Submit the form or call 508.441.0081 and a member of our team will follow up to scope the work." }
+          ],
+          "has_media": false,
+          "media_type": "image",
+          "image": { "src": "", "webp": "", "alt": "", "aria_hidden": false, "bgColor": "", "imageBackground": false, "addLoader": false, "objectPosition": "", "forceAlt": "", "loading_mask": "", "image_selection_hints": null },
+          "video": { "type": "embedded", "src": "" }
+        }
+      ],
+      "component_options": {
+        "hash": "faqs",
+        "component_padding": "half",
+        "component_margins": "none",
+        "hide_component": false
+      }
+    },
+    {
+      "acf_fc_layout": "multi_use_banner",
+      "title": "Ready to get your property scoped?",
+      "content_block": "text_block",
+      "text": "",
+      "social_links": [],
+      "email": "",
+      "button": {
+        "type": "nuxt",
+        "style": "primary",
+        "label": "Get a Free Quote",
+        "aria_label": "Jump to the Air Tech Solutions quote request form",
+        "href": "",
+        "path": "/marketing",
+        "hash": "form",
+        "external": false,
+        "include_icon": false,
+        "icon": "pencil",
+        "color": ""
+      },
+      "secondary_button": {
+        "type": "anchor",
+        "style": "secondary",
+        "label": "Call 508.441.0081",
+        "aria_label": "Call Air Tech Solutions at 508-441-0081",
+        "href": "tel:+15084410081",
+        "path": "",
+        "hash": "",
+        "external": false,
+        "include_icon": false,
+        "icon": "phone",
+        "color": ""
+      },
+      "component_options": {
+        "hash": "",
+        "component_padding": "half",
+        "component_margins": "none",
+        "hide_component": false
+      },
+      "background_type": "has_background",
+      "background": "bg2",
+      "add_texture": false,
+      "linear_gradient": "",
+      "image": {
+        "src": "https://d20dg8rmreapkm.cloudfront.net/properties/properties-multi-family.jpg",
+        "webp": "https://d20dg8rmreapkm.cloudfront.net/properties/properties-multi-family.webp",
+        "alt": "Multi-family property exterior served by Air Tech Solutions",
+        "aria_hidden": false,
+        "bgColor": "",
+        "imageBackground": false,
+        "addLoader": false,
+        "objectPosition": "center",
+        "forceAlt": "",
+        "loading_mask": "",
+        "image_selection_hints": { "context_category": "Properties We Serve" }
+      },
+      "reversed": false,
+      "centered": true,
+      "large_title": true,
+      "text_color": "primary"
+    },
+    {
+      "seo": {
+        "page_title": "Free Quote | Commercial Exterior & Vent Cleaning Boston MA",
+        "page_description": "Get a free quote from Air Tech Solutions for commercial exterior cleaning, vent, HVAC, and air quality services in Greater Boston. Call 508.441.0081.",
+        "page_keywords": "commercial exterior cleaning Boston; commercial vent cleaning Boston; property manager cleaning services Massachusetts; free commercial cleaning quote",
+        "additional_settings": false,
+        "social_meta": {
+          "og_meta": {
+            "title": "Free Quote | Commercial Exterior & Vent Cleaning Boston MA",
+            "description": "Get a free quote from Air Tech Solutions for commercial exterior cleaning, vent, HVAC, and air quality services in Greater Boston. Call 508.441.0081.",
+            "image": "https://d20dg8rmreapkm.cloudfront.net/home/home-hero-3.jpg"
+          }
+        }
+      }
+    }
   ]
 }

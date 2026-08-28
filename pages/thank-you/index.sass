@@ -10,7 +10,8 @@
 
   &__title,
   &__text,
-  &__link
+  &__list,
+  &__actions
     @include col (8)
     @include col--offset (2)
 
@@ -19,8 +20,23 @@
     margin-bottom: 1rem
 
   &__text
-    margin-bottom: 2rem
+    margin-bottom: 1.5rem
 
+  &__list
+    margin-bottom: 2rem
+    padding-left: 1.25rem
+    list-style: disc
+
+  &__list-item
+    margin-bottom: .5rem
+
+  &__actions
+    display: flex
+    flex-wrap: wrap
+    gap: 1.5rem
+    align-items: center
+
+  &__phone,
   &__link
     display: inline-block
     color: var(--primary)

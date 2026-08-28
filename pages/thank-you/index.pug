@@ -1,5 +1,11 @@
 .pages-thank-you
   .pages-thank-you__container
     h1.pages-thank-you__title Thank you for contacting us
-    p.pages-thank-you__text Your message has been received. A member of our team will be in touch shortly.
-    NuxtLink.pages-thank-you__link(to='/services/') Explore our services
+    p.pages-thank-you__text Your request has been received. A member of our team will review your property details and follow up to scope the work.
+    ul.pages-thank-you__list
+      li.pages-thank-you__list-item Our office is open Monday through Friday, 7:30AM to 6:00PM.
+      li.pages-thank-you__list-item Requests sent outside those hours are answered the next business day.
+      li.pages-thank-you__list-item Need something sooner? Give us a call and we will help right away.
+    .pages-thank-you__actions
+      a.pages-thank-you__phone(:href='props.phone.href', :aria-label='props.phone.aria') Call {{ props.phone.number }}
+      NuxtLink.pages-thank-you__link(to='/services/') Explore our services

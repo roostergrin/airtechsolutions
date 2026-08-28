@@ -20,7 +20,7 @@ const SITE_URL = 'https://www.airtechsolutions.com'
 const EXTRA_PAGE_ROUTES = ['/accessibility', '/privacy-policy']
 
 // Utility pages that exist but should never be advertised to crawlers.
-const EXCLUDED_ROUTES = ['/thank-you', '/404']
+const EXCLUDED_ROUTES = ['/thank-you', '/404', '/marketing']
 
 const readJSON = (fileName, fallback) => {
   const filePath = path.join(ROOT, 'data', fileName)
@@ -69,6 +69,21 @@ const entryExcerpt = (entry) => {
 
 const entryDate = entry => entry.modified || entry.date || null
 
+// Content timestamps are stored WordPress-style with no timezone, which
+// Date parses as machine-local. Pinning them to UTC keeps the feed byte
+// identical whether it is built on a laptop or on the UTC build server.
+const parseDate = (value) => {
+  if (!value) {
+    return null
+  }
+
+  const raw = String(value)
+  const normalized = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}$/.test(raw) ? `${raw}Z` : raw
+  const parsed = new Date(normalized)
+
+  return Number.isNaN(parsed.getTime()) ? null : parsed
+}
+
 const collect = () => {
   const posts = readJSON('posts.json', [])
   const guides = readJSON('service-guides.json', [])
@@ -97,11 +112,11 @@ const writeUrlList = (routes) => {
 const writeRSS = (posts) => {
   const items = posts
     .slice()
-    .sort((a, b) => new Date(entryDate(b) || 0) - new Date(entryDate(a) || 0))
+    .sort((a, b) => (parseDate(entryDate(b)) || 0) - (parseDate(entryDate(a)) || 0))
     .map((post) => {
       const link = absolute(`/blog/${post.slug}`)
-      const published = entryDate(post)
-      const pubDate = published ? new Date(published).toUTCString() : null
+      const published = parseDate(entryDate(post))
+      const pubDate = published ? published.toUTCString() : null
 
       return [
         '    <item>',
@@ -115,11 +130,11 @@ const writeRSS = (posts) => {
     })
 
   const latest = posts.reduce((newest, post) => {
-    const published = entryDate(post)
+    const published = parseDate(entryDate(post))
     if (!published) {
       return newest
     }
-    return !newest || new Date(published) > new Date(newest) ? published : newest
+    return !newest || published > newest ? published : newest
   }, null)
 
   const feed = [
@@ -130,7 +145,7 @@ const writeRSS = (posts) => {
     `    <link>${SITE_URL}/blog</link>`,
     '    <description>Commercial exterior cleaning, ventilation, and air quality insight for New England property managers.</description>',
     '    <language>en-us</language>',
-    latest ? `    <lastBuildDate>${escapeXML(new Date(latest).toUTCString())}</lastBuildDate>` : null,
+    latest ? `    <lastBuildDate>${escapeXML(latest.toUTCString())}</lastBuildDate>` : null,
     `    <atom:link href="${SITE_URL}/rss.xml" rel="self" type="application/rss+xml"/>`,
     ...items,
     '  </channel>',
@@ -170,7 +185,7 @@ const writeLLMs = ({ posts, guides }) => {
 
   const routeFor = key => key === 'Home' ? '/' : '/' + key.toLowerCase().replace(/\s+/g, '-')
 
-  const keys = Object.keys(pagesData)
+  const keys = Object.keys(pagesData).filter(key => !EXCLUDED_ROUTES.includes(routeFor(key)))
   const isService = key => key.startsWith('commercial-') || key.startsWith('professional-commercial-')
   const isProperty = key => key.startsWith('services-for-')
   const isCore = key => !isService(key) && !isProperty(key)

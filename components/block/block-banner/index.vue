@@ -22,6 +22,9 @@ export default {
     imageLoaded: false
   }),
   computed: {
+    hasSecondaryButton () {
+      return Boolean(this.props.secondary_button && this.props.secondary_button.label)
+    },
     socialLinks () {
       if (this.props.content_block === 'social_block') {
         return globalData.footer.social_media

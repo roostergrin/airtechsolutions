@@ -297,10 +297,16 @@
       font-size: rem-calc(15)
     .hero-main--property-page &
       max-width: calc((6/12) * #{$width})
+    // The paid landing page leads with a two-line value proposition, which
+    // reads better on one line per clause than wrapped into a narrow column.
+    .hero-main--marketing-page &
+      max-width: calc((8/12) * #{$width})
     @include desktop
       max-width: calc((4/12) * #{$max-width})
       .hero-main--property-page &
         max-width: calc((6/12) * #{$max-width})
+      .hero-main--marketing-page &
+        max-width: calc((8/12) * #{$max-width})
 
   &__ctas
     display: flex

@@ -35,6 +35,10 @@ const getLocalContent = (fileName) => {
 // Kept in step with EXTRA_PAGE_ROUTES in scripts/generate-seo-files.js.
 const extraPageRoutes = ['/accessibility', '/privacy-policy']
 
+// Noindexed utility and paid-traffic landing pages that must stay out of the
+// sitemap. Kept in step with EXCLUDED_ROUTES in scripts/generate-seo-files.js.
+const excludedPageRoutes = ['/thank-you', '/404', '/marketing']
+
 const getLocalPageRoutes = () => {
   const pages = getLocalContent('pages.json')
   const pagesData = pages.pages || pages
@@ -47,7 +51,7 @@ const getLocalPageRoutes = () => {
     return '/' + pageName.toLowerCase().replace(/\s+/g, '-')
   })
 
-  return [...routes, ...extraPageRoutes]
+  return [...routes, ...extraPageRoutes].filter(route => !excludedPageRoutes.includes(route))
 }
 
 const lastmodOf = item => (item && item.modified) || (item && item.date) || undefined

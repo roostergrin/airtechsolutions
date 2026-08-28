@@ -21,7 +21,8 @@ export default {
       return this.$store.state.forms
     },
     successRedirect () {
-      return this.$route.path.replace(/\/$/, '') === '/contact' ? '/thank-you/' : ''
+      const path = this.$route.path.replace(/\/$/, '')
+      return ['/contact', '/marketing'].includes(path) ? '/thank-you/' : ''
     },
     formHeading () {
       const header = this.selectedForm?.content?.content?.header || ''
