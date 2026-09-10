@@ -102,6 +102,22 @@ Treat this suite as maintained project documentation, not a frozen one-time audi
 
 The focused suite does not replace `npm run lint` or relevant component tests. The repository's complete Jest run currently includes a pre-existing `test/Logo.spec.js` failure because it imports the nonexistent `components/Logo.vue`; do not attribute that unrelated failure to SEO changes.
 
+## Accessibility Regression Testing
+
+`test/accessibility-audit.spec.js` enforces WCAG 2.2 AA success criterion 2.5.3 (Label in
+Name) across the JSON content sources: every control that sets both a visible label
+(`label`, `text`, or `number`) and an accessible name (`aria_label` or `aria`) must have
+the visible text contained in the accessible name, so speech-input users can activate a
+button by saying what they see.
+
+```sh
+./node_modules/.bin/jest test/accessibility-audit.spec.js --runInBand --coverage=false
+```
+
+When adding buttons or CTAs to `data/*.json`, write the `aria_label` as the visible label
+plus extra context — `"Contact Us at Air Tech Solutions"`, not
+`"Contact Air Tech Solutions"` for a button that reads "Contact Us".
+
 ## Task Planning Instructions
 When working on tasks in this project, always:
 1. **Plan First**: Use TodoWrite to break down tasks into bite-sized pieces

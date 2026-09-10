@@ -6,7 +6,7 @@
   "phone": {
     "number": "508.441.0081",
     "href": "tel:+15084410081",
-    "aria": "Call Air Tech Solutions at 508-441-0081"
+    "aria": "Call Air Tech Solutions at 508.441.0081"
   },
   "location": [
     {
@@ -90,7 +90,7 @@
           "type": "external",
           "style": "secondary",
           "label": "Call or Text",
-          "aria_label": "Call or text Air Tech Solutions at 508-441-0081",
+          "aria_label": "Call or text Air Tech Solutions at 508.441.0081",
           "href": "tel:+15084410081",
           "path": "",
           "hash": "",
@@ -105,7 +105,7 @@
           "type": "nuxt",
           "style": "primary",
           "label": "Contact Us",
-          "aria_label": "Contact Air Tech Solutions",
+          "aria_label": "Contact Us at Air Tech Solutions",
           "href": "",
           "path": "/contact",
           "hash": "",
