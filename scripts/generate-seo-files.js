@@ -51,8 +51,16 @@ const absolute = route => `${SITE_URL}${route === '/' ? '/' : route}`
 const pageRoutes = () => {
   const pages = readJSON('pages.json', {})
   const pagesData = pages.pages || pages
+  const locationPages = readJSON('location-pages.json', {})
+  const locationPagesData = locationPages.pages || locationPages
+  const areasPage = readJSON('areas-we-serve.json', {})
+  const pageNames = [...Object.keys(pagesData), ...Object.keys(locationPagesData)]
 
-  return Object.keys(pagesData).map(name =>
+  if (areasPage.title) {
+    pageNames.push(areasPage.title)
+  }
+
+  return pageNames.map(name =>
     name === 'Home' ? '/' : '/' + name.toLowerCase().replace(/\s+/g, '-'))
 }
 
@@ -160,9 +168,20 @@ const writeRSS = (posts) => {
 const writeLLMs = ({ posts, guides }) => {
   const pages = readJSON('pages.json', {})
   const pagesData = pages.pages || pages
+  const locationPages = readJSON('location-pages.json', {})
+  const locationPagesData = locationPages.pages || locationPages
+  const areasPage = readJSON('areas-we-serve.json', {})
+  const allPagesData = { ...pagesData, ...locationPagesData }
+
+  if (areasPage.title) {
+    allPagesData[areasPage.title] = areasPage
+  }
 
   const descriptionFor = (key) => {
-    const blocks = pagesData[key]
+    const blocks = allPagesData[key]
+    if (blocks && !Array.isArray(blocks) && blocks.seo) {
+      return stripTags(blocks.seo.page_description || '')
+    }
     if (!Array.isArray(blocks)) {
       return ''
     }
@@ -171,7 +190,10 @@ const writeLLMs = ({ posts, guides }) => {
   }
 
   const titleFor = (key) => {
-    const blocks = pagesData[key]
+    const blocks = allPagesData[key]
+    if (blocks && !Array.isArray(blocks) && blocks.seo) {
+      return stripTags(blocks.seo.page_title || blocks.title || key)
+    }
     if (!Array.isArray(blocks)) {
       return key
     }
@@ -185,10 +207,11 @@ const writeLLMs = ({ posts, guides }) => {
 
   const routeFor = key => key === 'Home' ? '/' : '/' + key.toLowerCase().replace(/\s+/g, '-')
 
-  const keys = Object.keys(pagesData).filter(key => !EXCLUDED_ROUTES.includes(routeFor(key)))
+  const keys = Object.keys(allPagesData).filter(key => !EXCLUDED_ROUTES.includes(routeFor(key)))
   const isService = key => key.startsWith('commercial-') || key.startsWith('professional-commercial-')
   const isProperty = key => key.startsWith('services-for-')
-  const isCore = key => !isService(key) && !isProperty(key)
+  const isLocation = key => Object.prototype.hasOwnProperty.call(locationPagesData, key) || key === areasPage.title
+  const isCore = key => !isService(key) && !isProperty(key) && !isLocation(key)
 
   const link = (title, route, description) => {
     const suffix = description ? `: ${description}` : ''
@@ -223,6 +246,10 @@ const writeLLMs = ({ posts, guides }) => {
     '## Property types served',
     '',
     ...pageLinks(isProperty),
+    '',
+    '## Areas served',
+    '',
+    ...pageLinks(isLocation),
     '',
     '## Service guides',
     '',

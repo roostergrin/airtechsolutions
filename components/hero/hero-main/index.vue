@@ -37,6 +37,9 @@ export default {
     isPropertyPage () {
       return /^\/services-for-/.test(this.$route.path)
     },
+    isLocationPage () {
+      return /^\/commercial-exterior-cleaning-(massachusetts|rhode-island|connecticut|southern-new-hampshire|maine|vermont)\/?$/.test(this.$route.path)
+    },
     isAboutPage () {
       return this.$route.path === '/about'
     },

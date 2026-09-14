@@ -2,7 +2,11 @@ import { siteMap } from '@/config/seo.config'
 import { siteHead } from '@/config/head.config'
 import posts from '@/data/posts.json'
 import serviceGuides from '@/data/service-guides.json'
+import locationPages from '@/data/location-pages.json'
+import areasPage from '@/data/areas-we-serve.json'
+import router from '@/router'
 import { articleSchema, organizationSchema, socialImage } from '@/resources/schema'
+import { setAreasWeServePage } from '@/resources/areas-we-serve'
 import { setJSONData, setMeta } from '@/resources/utils'
 
 describe('SEO audit regressions', () => {
@@ -73,6 +77,41 @@ describe('SEO audit regressions', () => {
       expect(seo.page_title.length).toBeLessThanOrEqual(65)
       expect(seo.social_meta.og_meta.title).toBe(seo.page_title)
     })
+  })
+
+  test('includes complete metadata for every New England location page', async () => {
+    const routes = await siteMap.sitemaps[0].routes()
+    const sitemapUrls = routes.map(route => route.url)
+
+    expect(Object.keys(locationPages)).toHaveLength(6)
+    Object.entries(locationPages).forEach(([slug, page]) => {
+      const seo = page.seo
+
+      expect(seo.page_title).toContain('Air Tech Solutions')
+      expect(seo.page_description).toContain('Fully insured and credentialed.')
+      expect(seo.social_meta.og_meta.title).toBe(seo.page_title)
+      expect(seo.social_meta.og_meta.description).toBe(seo.page_description)
+      expect(sitemapUrls).toContain(`/${slug}`)
+      expect(page.images.hero.src).toMatch(/^\/images\/locations\//)
+      expect(page.images.sections).toHaveLength(2)
+    })
+
+    expect(sitemapUrls).toContain('/areas-we-serve')
+    expect(areasPage.seo.social_meta.og_meta.title).toBe(areasPage.seo.page_title)
+  })
+
+  test('uses one Areas We Serve menu link and lists all locations on its page', () => {
+    const about = router.find(item => item.name === 'About')
+    const areasLinks = about.children.filter(item => item.name === 'Areas We Serve')
+    const locationRoutes = Object.keys(locationPages).map(slug => `/${slug}`)
+    const navRoutes = about.children.map(item => item.path)
+    const page = setAreasWeServePage()
+    const locations = page.sections.find(section => section.component_options && section.component_options.hash === 'locations')
+
+    expect(areasLinks).toEqual([{ name: 'Areas We Serve', path: '/areas-we-serve' }])
+    locationRoutes.forEach(route => expect(navRoutes).not.toContain(route))
+    expect(locations.items).toHaveLength(6)
+    expect(locations.items.map(item => item.button.path)).toEqual(locationRoutes)
   })
 
   test('excludes pagination URLs from blog and service-guide sitemaps', async () => {

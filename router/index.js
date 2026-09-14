@@ -40,7 +40,7 @@ const router = [
       },
       {
         name: 'Areas We Serve',
-        path: '#areas-we-serve'
+        path: '/areas-we-serve'
       },
       {
         name: 'Property Types We Serve',

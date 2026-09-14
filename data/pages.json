@@ -1011,7 +1011,23 @@
         "type": "embedded",
         "src": ""
       },
-      "buttons": [],
+      "buttons": [
+        {
+          "button": {
+            "type": "nuxt",
+            "style": "primary",
+            "label": "Explore Areas We Serve",
+            "aria_label": "Explore the areas served by Air Tech Solutions",
+            "href": "",
+            "path": "/areas-we-serve",
+            "hash": "",
+            "external": false,
+            "include_icon": false,
+            "icon": "",
+            "color": ""
+          }
+        }
+      ],
       "component_options": {
         "hash": "areas-we-serve",
         "component_padding": "half",
@@ -1019,7 +1035,7 @@
         "hide_component": false
       },
       "reverse": false,
-      "has_buttons": false,
+      "has_buttons": true,
       "has_accordion": false,
       "is_dynamic": false,
       "use_video": false,

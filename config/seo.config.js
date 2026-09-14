@@ -42,8 +42,16 @@ const excludedPageRoutes = ['/thank-you', '/404', '/marketing']
 const getLocalPageRoutes = () => {
   const pages = getLocalContent('pages.json')
   const pagesData = pages.pages || pages
+  const locationPages = getLocalContent('location-pages.json')
+  const locationPagesData = locationPages.pages || locationPages
+  const areasPage = getLocalContent('areas-we-serve.json')
+  const pageNames = [...Object.keys(pagesData), ...Object.keys(locationPagesData)]
 
-  const routes = Object.keys(pagesData).map((pageName) => {
+  if (areasPage.title) {
+    pageNames.push(areasPage.title)
+  }
+
+  const routes = pageNames.map((pageName) => {
     if (pageName === 'Home') {
       return '/'
     }

@@ -1,0 +1,22 @@
+{
+  "title": "Areas We Serve",
+  "intro": "We serve commercial properties within a 100-mile radius of West Newton, Massachusetts. Our service area covers all of Massachusetts and all of Rhode Island, along with northern and southern Connecticut, southern New Hampshire, Maine, and Vermont.",
+  "hero": {
+    "src": "/images/locations/air-tech-faq-hero-1080p.png",
+    "webp": "/images/locations/air-tech-faq-hero-1080p.webp",
+    "alt": "Air Tech Solutions team discussing commercial property services"
+  },
+  "seo": {
+    "page_title": "Areas We Serve | Air Tech Solutions",
+    "page_description": "Explore Air Tech Solutions commercial exterior cleaning, ventilation, and air quality service areas across Massachusetts and New England.",
+    "page_keywords": "Air Tech Solutions service area, commercial exterior cleaning New England, commercial ventilation services New England",
+    "additional_settings": false,
+    "social_meta": {
+      "og_meta": {
+        "title": "Areas We Serve | Air Tech Solutions",
+        "description": "Explore Air Tech Solutions commercial exterior cleaning, ventilation, and air quality service areas across Massachusetts and New England.",
+        "image": "https://d20dg8rmreapkm.cloudfront.net/opengraph.jpg"
+      }
+    }
+  }
+}
