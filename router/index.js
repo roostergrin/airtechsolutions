@@ -96,14 +96,6 @@ const router = [
       {
         name: 'Air Quality Testing',
         path: '/commercial-air-quality-testing-boston-west-newton-ma'
-      },
-      {
-        name: 'Caulking Services',
-        path: '/commercial-caulking-services-boston-west-newton-ma'
-      },
-      {
-        name: 'Sealing Services',
-        path: '/commercial-sealing-services-boston-west-newton-ma'
       }
     ]
   },

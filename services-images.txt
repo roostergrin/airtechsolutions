@@ -1,5 +1,3 @@
-﻿https://d20dg8rmreapkm.cloudfront.net/services/services-caulking-portrait.webp
-https://d20dg8rmreapkm.cloudfront.net/services/services-caulking-portrait.jpg
 https://d20dg8rmreapkm.cloudfront.net/services/services-hvac-portrait.webp
 https://d20dg8rmreapkm.cloudfront.net/services/services-hvac-portrait.jpg
 https://d20dg8rmreapkm.cloudfront.net/services/services-gutter-cleaning-portrait.webp

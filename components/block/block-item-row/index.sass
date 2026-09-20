@@ -69,13 +69,21 @@
       @include tablet-lg
         justify-content: space-around
 
+      // Flex rather than grid so a trailing partial row centres: with eight
+      // services the last row holds two, which as grid items sat left under
+      // columns one and two. The basis still resolves to three per row.
       .block-item-row--service-icons &
-        display: grid
-        grid-template-columns: repeat(3, minmax(0, 1fr))
+        display: flex
+        flex-wrap: wrap
+        justify-content: center
         gap: 2.5rem 1.5rem
-        justify-content: stretch
-        @include phone-lg
-          grid-template-columns: 1fr
+
+        .block-item-row__item
+          flex: 0 1 calc((100% - (1.5rem * 2)) / 3)
+          max-width: calc((100% - (1.5rem * 2)) / 3)
+          @include phone-lg
+            flex-basis: 100%
+            max-width: 100%
 
   &__item
     @include col (4)
