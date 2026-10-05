@@ -151,7 +151,7 @@
 
     &--home
       --hero-home-edge-space: clamp(3rem, 10vw, 12rem)
-      left: calc(((100vw - 100%) / -2) + var(--hero-home-edge-space))
+      left: calc(((100% - 100vw) / 2) + var(--hero-home-edge-space))
       align-items: flex-start
       transform: none
       margin-left: 0
@@ -434,7 +434,7 @@
     &::before
       position: absolute
       top: 0
-      bottom: calc(var(--service-icons-bottom-space) * -1)
+      bottom: calc(0px - var(--service-icons-bottom-space))
       left: 50%
       transform: translateX(-50%)
       z-index: -1
